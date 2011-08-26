@@ -1,0 +1,91 @@
+<?php echo $this->doctype('HTML5');?>
+<html lang="en">
+<head>
+<?php
+$this->headMeta()->setCharset('utf8');
+echo $this->headMeta();
+
+$this->headTitle($this->site_info['name'].' Administration', 'PREPEND')->setSeparator(' - ');
+echo $this->headTitle();
+$this->headLink()->appendStylesheet($this->baseUrl('assets/styles/base.css'), 'screen');
+$this->headLink()->appendStylesheet($this->baseUrl('assets/styles/admin.css'), 'screen');
+$this->headLink()->appendStylesheet($this->baseUrl('assets/styles/admin-menu.css'), 'screen');
+$this->headLink()->appendStylesheet($this->baseUrl('assets/styles/ie.css'), 'screen', 'lt IE 8');
+echo $this->headLink();
+
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/html5.js'), 'text/javascript', array('conditional' => 'lt IE 9'));
+echo $this->headScript();
+
+$this->dojo()->enable();
+$this->dojo()->setDjConfigOption('parseOnLoad', true);
+$this->dojo()->setLocalPath($this->baseUrl('assets/scripts/dojo/dojo/dojo.js'));
+$this->dojo()->addStyleSheetModule('dijit.themes.claro');
+$this->dojo()->requireModule("dojo.NodeList-traverse");
+$this->dojo()->requireModule("dojo.NodeList-manipulate");
+echo $this->dojo();
+echo $this->headStyle();
+?>
+<script type="text/javascript">
+dojo.addOnLoad(function(){
+  dojo.query(".main-menu li ul").prev().addClass('main-menu-has-children').append('<span class="main-menu-arrow"> »</span>');
+  dojo.query('a.link-button').forEach(function(node, index, array){
+	  if(dojo.hasAttr(node, 'iconClass')){
+	    var icon = dojo.attr(node,"iconClass");
+	  }else if(dojo.hasClass(node, 'link-icon')){
+		  dojo.removeClass(node, 'link-button');
+    	dojo.removeClass(node, 'link-icon');
+    	dojo.addClass(node, 'icon');
+      var icon = dojo.attr(node,"class");
+    }else{
+       var icon = null;
+    }
+	  new dijit.form.Button({
+      label: node.innerHTML,
+      iconClass: icon,
+      onClick: function() {
+        window.location = node.href;
+      }
+    },
+    node);
+  });
+});
+</script>
+</head>
+<body class="claro">
+  <header class="main-header">
+    <h1 class="site-title"><?php echo $this->escape($this->site_info['name']);?> Administration</h1>
+    <?php if(Zend_Auth::getInstance()->hasIdentity()):?>
+      <div class="welcome-message-container">
+        <div class="welcome-message">Welcome, <?php echo $this->escape($this->identity->username);?></div>
+        <nav class="header-navigation">
+          <a class="link-button link-icon icon-user" href="<?php echo $this->urlLink('admin', 'account');?>" title="Manage account profile">My Account</a>
+          <a class="link-button link-icon icon-logout" href="<?php echo $this->urlLink('admin', 'access', 'logout');?>" title="Log out">Log Out</a>
+        </nav>
+      </div>
+    <?php endif;?>
+    <nav class="main-navigation clearfix">
+      <?php echo $this->navigation()->menu()->setUlClass('main-menu')->render() ?>
+    </nav>
+  </header>
+  <section class="content-container">
+    <header class="content-header">
+      <?php if($this->pageHeader):?>
+        <h1 class="page-title"><?php echo $this->escape($this->pageHeader);?></h1>
+      <?php endif;?>
+      <nav class="breadcrumbs">
+        <?php if($this->url() != $this->route('admin_home')):?>
+          <a href="<?php echo $this->route('admin_home');?>" title="Admin Dashboard">Dashboard</a> &#187;
+        <?php endif;?>
+        <?php echo $this->navigation()->breadcrumbs()->setLinkLast(FALSE)->setMinDepth(0)->setSeparator(" &#187; ".PHP_EOL); ?>
+      </nav>
+      <?php echo $this->flashMessages();?>
+    </header>
+    <div class="content">
+      <?php echo $this->layout()->content;?>
+    </div>
+  </section>
+  <footer class="site-footer">
+    &copy; copyright <?php echo date('Y');?> <a href="http://simplecart.spekkionu.com" target="_blank">spekkionu</a>
+  </footer>
+</body>
+</html>

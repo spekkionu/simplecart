@@ -1,0 +1,44 @@
+# Cache and userfiles
+src/system/logs
+src/system/cache
+src/system/configs/config.yml
+src/public_html/cached
+build
+
+# External Libraries
+src/system/library/Zend
+src/system/library/ZendX
+src/system/library/ZFDebug
+src/system/library/Smarty
+src/system/library/WideImage
+src/system/library/sfEventDispatcher
+src/system/library/sfYaml
+src/system/library/Doctrine
+src/system/library/HTMLPurifier
+src/public_html/assets/scripts/dojo
+src/public_html/assets/scripts/tinymce
+
+# OS Files
+Thumbs.db
+.DS_Store
+
+# IDE Files
+.buildpath
+.externalToolBuilders
+.project
+.settings
+nbproject
+*.LCK
+*.kpf
+.tmp_*
+_notes
+.idea
+.cache
+
+# Source Control
+.svn
+.hg
+.hgignore
+.hgexternals
+CVS
+.bzr

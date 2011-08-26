@@ -1,0 +1,33 @@
+<?php echo $this->doctype('HTML5');?>
+<html lang="en">
+<head>
+<?php
+$this->headMeta()->setCharset('utf-8');
+echo $this->headMeta();
+
+$this->headTitle('Simplecart')->setSeparator(' - ');
+echo $this->headTitle();
+
+$this->headLink()->appendStylesheet($this->baseUrl('assets/styles/styles.css'), 'screen');
+$this->headLink()->appendStylesheet($this->baseUrl('assets/styles/ie.css'), 'screen', 'lt IE 8');
+echo $this->headLink();
+
+$this->headScript()->appendFile('//html5shim.googlecode.com/svn/trunk/html5.js', 'text/javascript', array('conditional' => 'lt IE 9'));
+echo $this->headScript();
+
+//$this->dojo()->enable();
+//$this->dojo()->setDjConfigOption('parseOnLoad', true);
+//$this->dojo()->setLocalPath($this->baseUrl('assets/scripts/dojo/dojo/dojo.js'));
+//$this->dojo()->addStyleSheetModule('dijit.themes.claro');
+//$this->dojo()->requireModule('dijit.form.Button');
+//echo $this->dojo();
+
+
+echo $this->headStyle();
+?>
+</head>
+<body>
+<h1>Default</h1>
+<?php echo $this->layout()->content;?>
+</body>
+</html>

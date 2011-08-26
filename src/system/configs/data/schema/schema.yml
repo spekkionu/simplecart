@@ -1,0 +1,600 @@
+User:
+  actAs:
+    Timestampable:
+      created:
+        name: signup_date
+        type: timestamp
+      updated:
+        disabled: true
+  indexes:
+    login:
+      fields: [email,password,active]
+      type: unique
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+      autoincrement: true
+    password:
+      type: string(128)
+      fixed: true
+      notblank: true
+      notnull: true
+    email:
+      type: string(127)
+      email: true
+      notnull: true
+      notblank: true
+      unique: true
+    firstname:
+      type: string(32)
+      notblank: true
+      notnull: true
+    lastname:
+      type: string(64)
+      notblank: true
+      notnull: true
+    active:
+      type: boolean
+      default: false
+      notnull: true
+      unsigned: true
+    billing_id:
+      type: integer(4)
+      unsigned: true
+    shipping_id:
+      type: integer(4)
+      unsigned: true
+    signup_date:
+      type: timestamp
+      notnull: true
+    last_login:
+      type: timestamp
+    token:
+      type: string(128)
+      fixed: true
+    password_key:
+      type: string(128)
+      fixed: true
+    token_date:
+      type: date
+  relations:
+    Billing:
+      class: Address
+      local: billing_id
+      foreign: id
+      foreignType: one
+      owningSide: true
+    Shipping:
+      class: Address
+      local: shipping_id
+      foreign: id
+      foreignType: one
+      owningSide: true
+    Orders:
+      class: Order
+      local: id
+      foreign: user_id
+      foreignType: many
+      owningSide: false
+
+Admin:
+  actAs:
+    Timestampable:
+      created:
+        name: signup_date
+        type: timestamp
+      updated:
+        disabled: true
+  indexes:
+    login:
+      fields: [username,password,active]
+      type: unique
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+      autoincrement: true
+    username:
+      type: string(15)
+      notnull: true
+      notblank: true
+      unique: true
+    password:
+      type: string(128)
+      fixed: true
+      notblank: true
+      notnull: true
+    email:
+      type: string(127)
+      email: true
+      notnull: true
+      notblank: true
+      unique: true
+    firstname:
+      type: string(32)
+      notblank: true
+      notnull: true
+    lastname:
+      type: string(64)
+      notblank: true
+      notnull: true
+    active:
+      type: boolean
+      default: false
+      notnull: true
+      unsigned: true
+    accesslevel:
+      type: enum
+      values: [admin,superadmin]
+      default: admin
+      notnull: true
+      notblank: true
+    signup_date:
+      type: timestamp
+      notnull: true
+    last_login:
+      type: timestamp
+    token:
+      type: string(128)
+      fixed: true
+    password_key:
+      type: string(128)
+      fixed: true
+    token_date:
+      type: date
+
+Address:
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+      autoincrement: true
+    type:
+      type: enum
+      length: 8
+      values: [billing,shipping]
+      notnull: true
+    company:
+      type: string(40)
+    firstname:
+      type: string(32)
+    lastname:
+      type: string(64)
+    address:
+      type: string(100)
+    address2:
+      type: string(100)
+    city:
+      type: string(40)
+    state:
+      type: string(2)
+      fixed: true
+    zip:
+      type: string(5)
+      fixed: true
+    phone:
+      type: string(25)
+
+Category:
+  actAs:
+    NestedSet:
+      hasManyRoots: false
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+      autoincrement: true
+    name:
+      type: string(100)
+      notnull: true
+      notblank: true
+    path:
+      type: string(255)
+      unique: true
+    active:
+      type: boolean
+      default: false
+      notnull: true
+      unsigned: true
+  relations:
+    Products:
+      class: Product
+      foreign: product_id
+      local: category_id
+      foreignType: many
+      refClass: ProductCategory
+
+Product:
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+      autoincrement: true
+    sku:
+      type: string(50)
+      unique: true
+      notnull: true
+      notblank: true
+    name:
+      type: string(100)
+      notnull: true
+      notblank: true
+    path:
+      type: string(255)
+      unique: true
+    active:
+      type: boolean
+      default: false
+      notnull: true
+      unsigned: true
+    price:
+      type: decimal
+      length: 8
+      scale: 2
+      unsigned: true
+    short_description:
+      type: clob(65532)
+    description:
+      type: clob
+    weight:
+      type: float
+      length: 8
+      scale: 3
+      default: 0
+      unsigned: true
+    shipping:
+      type: decimal
+      length: 8
+      scale: 2
+      unsigned: true
+    additional_shipping:
+      type: decimal
+      length: 8
+      scale: 2
+      unsigned: true
+  checks:
+    price_check: price > 0
+  relations:
+    Categories:
+      class: Category
+      local: product_id
+      foreign: category_id
+      foreignType: many
+      refClass: ProductCategory
+
+ProductCategory:
+  tableName: product_category
+  columns:
+    category_id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+    product_id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+    sort:
+      type: integer(4)
+      unsigned: true
+
+TaxRate:
+  tableName: tax_rate
+  columns:
+    state:
+      type: string(2)
+      fixed: true
+      primary: true
+    rate:
+      type: decimal
+      length: 8
+      scale: 3
+
+ShippingRate:
+  tableName: shipping_rate
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+      autoincrement: true
+    type:
+      type: enum
+      values: [number,weight,flatrate,flatvalue]
+      length: 9
+      default: flatvalue
+      notnull: true
+      notblank: true
+    min:
+      type: decimal
+      length: 8
+      scale: 4
+    max:
+      type: decimal
+      length: 8
+      scale: 4
+      default: 0
+      notblank: true
+      notnull: true
+
+Order:
+  actAs:
+    Timestampable:
+      created:
+        name: orderdate
+        type: timestamp
+      updated:
+        disabled: true
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+      autoincrement: true
+    status:
+      type: enum
+      values: [new,incomplete,pending,cancelled,complete,declined,error]
+      default: incomplete
+      notnull: true
+      notblank: true
+    payment_status:
+      type: enum
+      values: [complete,denied,pending,cancelled]
+    approved:
+      type: boolean
+      unsigned: true
+    subtotal:
+      type: decimal
+      length: 8
+      scale: 2
+      notnull: true
+      notblank: true
+      unsigned: true
+    shipping:
+      type: decimal
+      length: 8
+      scale: 2
+      notnull: true
+      notblank: true
+      unsigned: true
+    tax:
+      type: decimal
+      length: 8
+      scale: 2
+      notnull: true
+      notblank: true
+      unsigned: true
+    total:
+      type: decimal
+      length: 8
+      scale: 2
+      notnull: true
+      notblank: true
+      unsigned: true
+    email:
+      type: string(127)
+      email: true
+    user_id:
+      type: integer(4)
+      unsigned: true
+    mode:
+      type: enum
+      values: [live,test]
+      default: test
+      notnull: true
+      notblank: true
+  relations:
+    Transactions:
+      class: Transaction
+      local: id
+      foreign: order_id
+      foreignType: many
+      owningSide: false
+    Items:
+      class: OrderedItem
+      local: id
+      foreign: order_id
+      foreignType: many
+      owningSide: false
+    User:
+      class: User
+      local: user_id
+      foreign: id
+      foreignType: one
+      owningSide: true
+    BillingInfo:
+      class: BillingAddress
+      local: id
+      foreign: order_id
+      foreignType: one
+      owningSide: false
+    ShippingInfo:
+      class: ShippingAddress
+      local: id
+      foreign: order_id
+      foreignType: one
+      owningSide: false
+
+OrderedItem:
+  tableName: ordered_item
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+      autoincrement: true
+    order_id:
+      type: integer(4)
+      notnull: true
+      notblank: true
+      unsigned: true
+    sku:
+      type: string(50)
+    product_name:
+      type: string(100)
+    quantity:
+      type: integer(2)
+      unsigned: true
+      notnull: true
+      default: 1
+    price:
+      type: decimal
+      length: 8
+      scale: 2
+      unsigned: true
+    linetotal:
+      type: decimal
+      length: 8
+      scale: 2
+      unsigned: true
+  relations:
+    Order:
+      class: Order
+      local: order_id
+      foreign: id
+      foreignType: one
+      owningSide: true
+
+Transaction:
+  actAs:
+    Timestampable:
+      created:
+        name: transaction_date
+        type: timestamp
+      updated:
+        disabled: true
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+      autoincrement: true
+    order_id:
+      type: integer(4)
+      unsigned: true
+      notnull: true
+      notblank: true
+    tranaction_id:
+      type: string(127)
+    parent_transaction_id:
+      type: string(127)
+    type:
+      type: string(30)
+    amount:
+      type: decimal
+      length: 8
+      scale: 2
+    authcode:
+      type: string(50)
+    authreason:
+      type: string(255)
+    errormessage:
+      type: string(50)
+    is_primary:
+      type: boolean
+      default: false
+      notblank: true
+      notnull: true
+      unsigned: true
+  relations:
+    Order:
+      class: Order
+      local: order_id
+      foreign: id
+      foreignType: one
+      owningSide: true
+
+BillingAddress:
+  tableName: billing_address
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+      autoincrement: true
+    order_id:
+      type: integer(4)
+      unsigned: true
+      notnull: true
+      notblank: true
+    company:
+      type: string(40)
+    firstname:
+      type: string(32)
+    lastname:
+      type: string(64)
+    address:
+      type: string(100)
+    address2:
+      type: string(100)
+    city:
+      type: string(40)
+    state:
+      type: string(2)
+      fixed: true
+    zip:
+      type: string(5)
+      fixed: true
+    phone:
+      type: string(25)
+  relations:
+    Order:
+      class: Order
+      local: order_id
+      foreign: id
+      foreignType: one
+      owningSide: true
+ShippingAddress:
+  tableName: shipping_address
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+      autoincrement: true
+    order_id:
+      type: integer(4)
+      unsigned: true
+      notnull: true
+      notblank: true
+    company:
+      type: string(40)
+    firstname:
+      type: string(32)
+    lastname:
+      type: string(64)
+    address:
+      type: string(100)
+    address2:
+      type: string(100)
+    city:
+      type: string(40)
+    state:
+      type: string(2)
+      fixed: true
+    zip:
+      type: string(5)
+      fixed: true
+    phone:
+      type: string(25)
+  relations:
+    Order:
+      class: Order
+      local: order_id
+      foreign: id
+      foreignType: one
+      owningSide: true
+
+Setting:
+  columns:
+    key:
+      type: string(100)
+      primary: true
+      notnull: true
+    value:
+      type: array

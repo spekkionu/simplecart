@@ -1,0 +1,27 @@
+Admin:
+  Admin_1:
+    username: admin
+    password: password
+    email: admin@email.com
+    firstname: Firstname
+    lastname: Lastname
+    active: true
+    accesslevel: superadmin
+    
+Category:
+  NestedSet: true
+  Root:
+    name: Main
+    active: true
+    children:
+      Category_1:
+        name: Category 1
+        active: true
+      Category_2:
+        name: Category 2
+        active: true
+        children:
+          Category_3:
+            name: Category 3
+            path: category-2/category-3
+            active: true

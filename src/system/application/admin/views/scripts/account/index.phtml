@@ -1,0 +1,35 @@
+<?php $this->headTitle('My Account');?>
+<?php $this->pageHeader = 'My Account';?>
+
+<nav class="page-navigation">
+  <a href="<?php echo $this->route('admin_account_profile');?>" class="link-button link-icon icon-user">Edit Profile</a>
+  <a href="<?php echo $this->route('admin_account_password');?>" class="link-button link-icon icon-key">Change Password</a>
+</nav>
+
+<table class="border data-table">
+  <thead>
+  <tr>
+    <th colspan="2">User Profile</th>
+  </tr>
+  </thead>
+  <tr>
+    <th>Username:</th>
+    <td><?php echo $this->escape($this->profile['username']);?></td>
+  </tr>
+  <tr>
+    <th>Name:</th>
+    <td>
+      <?php echo $this->escape($this->profile['firstname']);?>
+      <?php echo $this->escape($this->profile['lastname']);?>
+    </td>
+  </tr>
+  <tr>
+    <th>Email:</th>
+    <td><?php echo $this->escape($this->profile['email']);?></td>
+  </tr>
+  <tr>
+    <th>Last Login:</th>
+    <td><?php echo $this->dateFormat($this->profile['last_login'], 'm/d/Y h:i a');?></td>
+  </tr>
+  
+</table>

@@ -1,0 +1,218 @@
+
+###################
+# Catalog Routes  #
+###################
+catalog:
+  route: catalog/:page
+  defaults:
+    module: default
+    controller: catalog
+    action: index
+    page: 1
+  reqs:
+    page: \d+
+
+catalog_category:
+  route: catalog/:slug/:page
+  defaults:
+    module: default
+    controller: catalog
+    action: category
+    page: 1
+  reqs:
+    page: \d+
+    slug: .+
+
+catalog_product:
+  route: catalog/product/:slug
+  defaults:
+    module: default
+    controller: catalog
+    action: product
+  reqs:
+    slug: .+
+
+####################
+# Checkout Routes  #
+####################
+checkout_cart:
+  type: Zend_Controller_Router_Route_Static
+  route: checkout
+  defaults:
+    module: default
+    controller: checkout
+    action: index
+checkout_address:
+  type: Zend_Controller_Router_Route_Static
+  route: checkout/address
+  defaults:
+    module: default
+    controller: checkout
+    action: address
+checkout_shipping:
+  type: Zend_Controller_Router_Route_Static
+  route: checkout/shipping
+  defaults:
+    module: default
+    controller: checkout
+    action: shipping
+checkout_payment:
+  type: Zend_Controller_Router_Route_Static
+  route: checkout/payment
+  defaults:
+    module: default
+    controller: checkout
+    action: payment
+checkout_receipt:
+  type: Zend_Controller_Router_Route_Static
+  route: checkout/receipt
+  defaults:
+    module: default
+    controller: checkout
+    action: receipt
+
+#################
+# Other Routes  #
+#################
+page:
+  type: Zend_Controller_Router_Route_Regex
+  route: (.+)\.html
+  defaults:
+    module: default
+    controller: index
+    action: page
+  map:
+    1: page
+  reverse: %s.html
+404:
+  type: Zend_Controller_Router_Route_Static
+  route: not-found
+  defaults:
+    module: default
+    controller: error
+    action: not-found
+
+contact:
+  type: Zend_Controller_Router_Route_Static
+  route: contact
+  defaults:
+    module: default
+    controller: index
+    action: contact
+contact_thankyou:
+  type: Zend_Controller_Router_Route_Static
+  route: contact/thankyou
+  defaults:
+    module: default
+    controller: index
+    action: page
+    page: thankyou
+
+
+
+#################
+# Admin Routes  #
+#################
+
+admin_home:
+  type: Zend_Controller_Router_Route_Static
+  route: admin
+  defaults:
+    module: admin
+    controller: index
+    action: index
+admin_login:
+  type: Zend_Controller_Router_Route_Static
+  route: admin/login
+  defaults:
+    module: admin
+    controller: access
+    action: index
+admin_logout:
+  type: Zend_Controller_Router_Route_Static
+  route: admin/logout
+  defaults:
+    module: admin
+    controller: access
+    action: logout
+admin_forgot_password:
+  type: Zend_Controller_Router_Route_Static
+  route: admin/reset-password
+  defaults:
+    module: admin
+    controller: access
+    action: reset-password
+admin_save_password:
+  route: admin/reset-password/:token
+  defaults:
+    module: admin
+    controller: access
+    action: save-password
+  reqs:
+    token: [0-9a-f]{32}
+admin_account:
+  type: Zend_Controller_Router_Route_Static
+  route: admin/account
+  defaults:
+    module: admin
+    controller: account
+    action: index
+admin_account_profile:
+  type: Zend_Controller_Router_Route_Static
+  route: admin/account/profile
+  defaults:
+    module: admin
+    controller: account
+    action: edit
+admin_account_password:
+  type: Zend_Controller_Router_Route_Static
+  route: admin/account/password
+  defaults:
+    module: admin
+    controller: account
+    action: password
+admin_category:
+  type: Zend_Controller_Router_Route_Static
+  route: admin/category
+  defaults:
+    module: admin
+    controller: category
+    action: index
+admin_category_data:
+  type: Zend_Controller_Router_Route_Static
+  route: admin/category/load-data
+  defaults:
+    module: admin
+    controller: category
+    action: load-data
+admin_category_add:
+  type: Zend_Controller_Router_Route_Static
+  route: admin/category/add
+  defaults:
+    module: admin
+    controller: category
+    action: add
+admin_category_details:
+  route: admin/category/details/:id
+  defaults:
+    module: admin
+    controller: category
+    action: details
+  reqs:
+    id: \d+
+admin_category_edit:
+  route: admin/category/edit/:id
+  defaults:
+    module: admin
+    controller: category
+    action: edit
+  reqs:
+    id: \d+
+admin_category_delete:
+  route: admin/category/delete/:id
+  defaults:
+    module: admin
+    controller: category
+    action: delete
+  reqs:
+    id: \d+

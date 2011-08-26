@@ -1,0 +1,145 @@
+
+/*** ESSENTIAL STYLES ***/
+.main-navigation{
+  background-color:#BDD2FF;
+}
+
+
+.main-menu, .main-menu * {
+	margin:			0;
+	padding:		0;
+	list-style:		none;
+}
+.main-menu {
+	line-height:	1.0;
+}
+.main-menu ul {
+	position:		absolute;
+	top:			-999em;
+	width:			15em; /* left offset of submenus need to match (see below) */
+}
+.main-menu ul li {
+	width:			100%;
+}
+.main-menu li:hover {
+	visibility:		inherit; /* fixes IE7 'sticky bug' */
+}
+.main-menu li {
+	float:			left;
+	position:		relative;
+}
+.main-menu a {
+	display:		block;
+	position:		relative;
+}
+.main-menu li:hover ul,
+.main-menu li.sfHover ul {
+	left:			0;
+	top:			2.5em; /* match top ul list item height */
+	z-index:		99;
+}
+ul.main-menu li:hover li ul,
+ul.main-menu li.sfHover li ul {
+	top:			-999em;
+}
+ul.main-menu li li:hover ul,
+ul.main-menu li li.sfHover ul {
+	left:			15em; /* match ul width */
+	top:			0;
+}
+ul.main-menu li li:hover li ul,
+ul.main-menu li li.sfHover li ul {
+	top:			-999em;
+}
+ul.main-menu li li li:hover ul,
+ul.main-menu li li li.sfHover ul {
+	left:			15em; /* match ul width */
+	top:			0;
+}
+
+/*** DEMO SKIN ***/
+.main-menu {
+	float:			left;
+	/*margin-bottom:	1em;*/
+}
+.main-menu a {
+	border-right:	1px solid #fff;
+	border-top:		1px solid #CFDEFF;
+	padding: 		.75em 1em;
+	text-decoration:none;
+}
+.main-menu a, .main-menu a:visited  { /* visited pseudo selector so IE6 applies text colour*/
+	color:			#13a;
+}
+.main-menu li li a{
+  border-right: none;
+  border-left: 1px solid #fff;
+}
+.main-menu li {
+	background:		#BDD2FF;
+}
+.main-menu li li {
+	background:		#AABDE6;
+}
+.main-menu li li li {
+	background:		#9AAEDB;
+}
+.main-menu li:hover, .main-menu li.sfHover,
+.main-menu a:focus, .main-menu a:hover, .main-menu a:active {
+	background:		#CFDEFF;
+	outline:		0;
+}
+
+/*** arrows **/
+.main-menu a.main-menu-has-children {
+	padding-right: 	2.25em;
+	min-width:		1px; /* trigger IE7 hasLayout so spans position accurately */
+}
+.main-menu-arrow {
+	position:		absolute;
+	display:		block;
+	right:			.75em;
+	top:			1.05em; /* IE6 only */
+	width:			10px;
+	height:			10px;
+	text-indent: 	-999em;
+	overflow:		hidden;
+	background:		url('../images/arrows-ffffff.png') no-repeat -10px -100px; /* 8-bit indexed alpha png. IE6 gets solid image only */
+}
+a > .main-menu-arrow {  /* give all except IE6 the correct values */
+	top:			.8em;
+	background-position: 0 -100px; /* use translucent arrow for modern browsers*/
+}
+/* apply hovers to modern browsers */
+a:focus > .main-menu-arrow,
+a:hover > .main-menu-arrow,
+a:active > .main-menu-arrow,
+li:hover > a > .main-menu-arrow,
+li.sfHover > a > .main-menu-arrow {
+	background-position: -10px -100px; /* arrow hovers for modern browsers*/
+}
+
+/* point right for anchors in subs */
+.main-menu ul .main-menu-arrow { background-position:  -10px 0; }
+.main-menu ul a > .main-menu-arrow { background-position:  0 0; }
+/* apply hovers to modern browsers */
+.main-menu ul a:focus > .main-menu-arrow,
+.main-menu ul a:hover > .main-menu-arrow,
+.main-menu ul a:active > .main-menu-arrow,
+.main-menu ul li:hover > a > .main-menu-arrow,
+.main-menu ul li.sfHover > a > .main-menu-arrow {
+	background-position: -10px 0; /* arrow hovers for modern browsers*/
+}
+
+/*** shadows for all but IE6 ***/
+.main-menu ul {
+	background:	url('../images/shadow.png') no-repeat bottom right;
+	padding: 0 8px 9px 0;
+	-moz-border-radius-bottomleft: 17px;
+	-moz-border-radius-topright: 17px;
+	-webkit-border-top-right-radius: 17px;
+	-webkit-border-bottom-left-radius: 17px;
+}
+.main-menu ul.sf-shadow-off {
+	background: transparent;
+}

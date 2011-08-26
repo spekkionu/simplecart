@@ -1,0 +1,22 @@
+<?php $this->headTitle('Manage Categories');?>
+<?php $this->pageHeader = 'Manage Categories'; ?>
+<?php $this->dojo()->requireModule("dojo.data.ItemFileWriteStore"); ?>
+<?php $this->dojo()->requireModule("dojox.data.QueryReadStore"); ?>
+<?php $this->dojo()->requireModule("dijit.tree.TreeStoreModel"); ?>
+<?php $this->dojo()->requireModule("dijit.Tree"); ?>
+<?php $this->dojo()->requireModule("dijit.tree.dndSource"); ?>
+
+<div dojoType="dojo.data.ItemFileWriteStore" jsId="continentStore" url="<?php echo $this->route('admin_category_data');?>">
+
+</div>
+<div dojoType="dijit.tree.TreeStoreModel" jsId="continentModel" store="continentStore"
+     rootId="0" rootLabel="Main" childrenAttrs="__children">
+  <script type="dojo/method" event="pasteItem" args="childItem, oldParentItem, newParentItem, bCopy, insertIndex">
+    
+  </script>
+</div>
+<div dojoType="dijit.Tree" id="mytree" model="continentModel" dndController="dijit.tree.dndSource" betweenThreshold="5" openOnClick="false">
+    <script type="dojo/method" event="onClick" args="item">
+
+    </script>
+</div>
