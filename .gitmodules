@@ -4,3 +4,6 @@
 [submodule "src/public_html/assets/scripts/dojo"]
 	path = src/public_html/assets/scripts/dojo
 	url = git://github.com/spekkionu/dojo.git
+[submodule "src/system/library/HTMLPurifier"]
+	path = src/system/library/HTMLPurifier
+	url = git://github.com/spekkionu/htmlpurifier.git

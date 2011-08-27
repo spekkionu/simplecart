@@ -6,14 +6,7 @@ src/public_html/cached
 build
 
 # External Libraries
-src/system/library/Zend
-src/system/library/ZendX
-src/system/library/ZFDebug
-src/system/library/WideImage
-src/system/library/sfEventDispatcher
-src/system/library/sfYaml
 src/system/library/Doctrine
-src/system/library/HTMLPurifier
 
 # OS Files
 Thumbs.db
