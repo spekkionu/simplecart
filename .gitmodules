@@ -1,3 +1,6 @@
 [submodule "src/public_html/assets/scripts/tinymce"]
 	path = src/public_html/assets/scripts/tinymce
 	url = git://github.com/spekkionu/tinymce.git
+[submodule "src/public_html/assets/scripts/dojo"]
+	path = src/public_html/assets/scripts/dojo
+	url = git://github.com/spekkionu/dojo.git

@@ -14,8 +14,6 @@ src/system/library/sfEventDispatcher
 src/system/library/sfYaml
 src/system/library/Doctrine
 src/system/library/HTMLPurifier
-#src/public_html/assets/scripts/dojo
-#src/public_html/assets/scripts/tinymce
 
 # OS Files
 Thumbs.db
