@@ -1,0 +1,3 @@
+[submodule "src/public_html/assets/scripts/tinymce"]
+	path = src/public_html/assets/scripts/tinymce
+	url = git://github.com/spekkionu/tinymce.git
