@@ -7,3 +7,9 @@
 [submodule "src/system/library/HTMLPurifier"]
 	path = src/system/library/HTMLPurifier
 	url = git://github.com/spekkionu/htmlpurifier.git
+[submodule "src/system/library/Zend"]
+	path = src/system/library/Zend
+	url = git://github.com/spekkionu/zendframework.git
+[submodule "src/system/library/ZendX"]
+	path = src/system/library/ZendX
+	url = git://github.com/spekkionu/zendframework-extras.git
