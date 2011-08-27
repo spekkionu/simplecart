@@ -5,9 +5,6 @@ src/system/configs/config.yml
 src/public_html/cached
 build
 
-# External Libraries
-src/system/library/Doctrine
-
 # OS Files
 Thumbs.db
 .DS_Store

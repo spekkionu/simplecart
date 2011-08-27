@@ -16,3 +16,6 @@
 [submodule "src/system/library/WideImage"]
 	path = src/system/library/WideImage
 	url = git://github.com/spekkionu/wideimage.git
+[submodule "src/system/library/Doctrine"]
+	path = src/system/library/Doctrine
+	url = git://github.com/spekkionu/doctrine.git
