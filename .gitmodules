@@ -13,3 +13,6 @@
 [submodule "src/system/library/ZendX"]
 	path = src/system/library/ZendX
 	url = git://github.com/spekkionu/zendframework-extras.git
+[submodule "src/system/library/WideImage"]
+	path = src/system/library/WideImage
+	url = git://github.com/spekkionu/wideimage.git
