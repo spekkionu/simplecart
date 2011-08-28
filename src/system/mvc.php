@@ -33,10 +33,8 @@ $layout = Zend_Layout::startMvc();
 $layout->setLayoutPath(SYSTEM.'/application/default/views/layout');
 $view = $layout->getView();
 $view->addHelperPath(SYSTEM . '/application/default/views/helpers', 'Zend_View_Helper');
-Zend_Dojo_View_Helper_Dojo::setUseDeclarative();
-Zend_Dojo::enableView($view);
-$view->dojo()->enable();
-$view->dojo()->requireModule('dijit.form.Button');
+ZendX_JQuery::enableView($view);
+$view->jQuery()->enable();
 
 // Setup Navidation Defaults
 Zend_View_Helper_Navigation_HelperAbstract::setDefaultAcl($acl);
@@ -48,7 +46,7 @@ if(Zend_Auth::getInstance()->hasIdentity()){
 
 if($config->debug->debug_bar){
   $debug = new ZFDebug_Controller_Plugin_Debug(array(
-    'jquery_path' => 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js',
+    'jquery_path' => $view->baseUrl('assets/scripts/jquery/jquery-1.6.2.min.js'),
     'plugins' => array(
       'Variables',
       'Html',

@@ -1,26 +1,39 @@
 <?php
 
-class SimpleCart_Form extends Zend_Dojo_Form {
+class SimpleCart_Form extends ZendX_JQuery_Form {
 
   public $validator = array();
 
   public $field = array(
-    'DijitElement',
+    'ViewHelper',
     array('Description', array('tag' => 'div', 'class'=>'form-description', 'placement'=>'append', 'escape'=>false)),
     'Errors',
     array(array('element'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-element')),
     array(array('label-container-open'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-label', 'placement'=>'prepend', 'closeOnly'=>true)),
-    //array('DijitTooltip', array('tag' => 'span', 'class'=>'form-tooltip', 'placement'=>'prepend', 'escape'=>false)),
+    array('Label', array('placement'=>'prepend')),
+    array(array('label-container-close'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-label', 'placement'=>'prepend', 'openOnly'=>true)),
+    array(array('row'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-row'))
+  );
+
+  public $password_strength = array(
+    array(array('password_meter_bar'=>'HtmlTag'), array('tag' => 'div', 'class'=>'password-meter-bar')),
+    array(array('password_meter_bg'=>'HtmlTag'), array('tag' => 'div', 'class'=>'password-meter-bg')),
+    array(array('password_meter_message'=>'HtmlTag'), array('tag' => 'div', 'class'=>'password-meter-message', 'placement'=>'prepend')),
+    array(array('password_meter'=>'HtmlTag'), array('tag' => 'div', 'class'=>'password-meter')),
+    array('ViewHelper', array('placement'=>'prepend')),
+    array('Description', array('tag' => 'div', 'class'=>'form-description', 'placement'=>'append', 'escape'=>false)),
+    'Errors',
+    array(array('element'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-element form-element-password')),
+    array(array('label-container-open'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-label', 'placement'=>'prepend', 'closeOnly'=>true)),
     array('Label', array('placement'=>'prepend')),
     array(array('label-container-close'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-label', 'placement'=>'prepend', 'openOnly'=>true)),
     array(array('row'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-row'))
   );
 
   public $inline = array(
-    'DijitElement',
+    'ViewHelper',
     array('Description', array('tag' => 'div', 'class'=>'form-description', 'placement'=>'append', 'escape'=>false)),
     'Errors',
-    //array('DijitTooltip', array('tag' => 'span', 'class'=>'form-tooltip', 'placement'=>'prepend', 'escape'=>false)),
     array('Label', array('placement'=>'prepend')),
     array(array('element'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-element')),
     array(array('row'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-row'))
@@ -31,23 +44,23 @@ class SimpleCart_Form extends Zend_Dojo_Form {
   );
 
   public $button = array(
-    'DijitElement',
+    'ViewHelper',
     array(array('element'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-element')),
     array(array('row'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-row'))
   );
 
   public $buttonOpen = array(
-    'DijitElement',
+    'ViewHelper',
     array('element'=>'HtmlTag', array('tag' => 'div', 'class'=>'form-element', 'openOnly'=>true)),
     array(array('row'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-row', 'openOnly'=>true))
   );
 
   public $buttonMiddle = array(
-    'DijitElement'
+    'ViewHelper'
   );
 
   public $buttonClose = array(
-    'DijitElement',
+    'ViewHelper',
     array('HtmlTag', array('tag' => 'div', 'class'=>'form-element',  'closeOnly'=>true)),
     array(array('row'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-row', 'closeOnly'=>true))
   );
@@ -57,7 +70,7 @@ class SimpleCart_Form extends Zend_Dojo_Form {
   public function init(){
     $this->setAction($this->getView()->url());
     $this->setMethod('post');
-    Zend_Dojo::enableForm($this);
+    ZendX_JQuery::enableForm($this);
     $this->addElementPrefixPath('Form_Decorator', 'Form/Decorator/', 'decorator');
 
     $this->validator['required'] = new Zend_Validate_NotEmpty();
@@ -103,6 +116,32 @@ class SimpleCart_Form extends Zend_Dojo_Form {
     }
     unset($element, $messages);
     return $array;
+  }
+
+  /**
+   * Add error class to invalid elements
+   * @param array $data
+   * @return boolean
+   */
+  public function isValid($data){
+    $valid = parent::isValid($data);
+    if(!$valid){
+      foreach($this->getMessages() as $element=>$messages){
+        $class = $this->getElement($element)->getAttrib('class');
+        if(!$class){
+          $class = 'error';
+        }else{
+          // Check if already has error class
+          $classes = explode(' ', $class);
+          if(!in_array('error', $classes)){
+            // Does not already have error class
+            $class .= ' error';
+          }
+        }
+        $this->getElement($element)->setAttrib('class', $class);
+      }
+    }
+    return $valid;
   }
 
 }

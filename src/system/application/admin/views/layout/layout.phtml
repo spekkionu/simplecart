@@ -16,40 +16,29 @@ echo $this->headLink();
 $this->headScript()->appendFile($this->baseUrl('assets/scripts/html5.js'), 'text/javascript', array('conditional' => 'lt IE 9'));
 echo $this->headScript();
 
-$this->dojo()->enable();
-$this->dojo()->setDjConfigOption('parseOnLoad', true);
-$this->dojo()->setLocalPath($this->baseUrl('assets/scripts/dojo/dojo/dojo.js'));
-$this->dojo()->addStyleSheetModule('dijit.themes.claro');
-$this->dojo()->requireModule("dojo.NodeList-traverse");
-$this->dojo()->requireModule("dojo.NodeList-manipulate");
-echo $this->dojo();
+$this->jQuery()->enable()->uiEnable();
+$this->jQuery()->setLocalPath($this->baseUrl('assets/scripts/jquery/jquery-1.6.2.min.js'));
+$this->jQuery()->setUiLocalPath($this->baseUrl('assets/scripts/jquery/jquery.ui/js/jquery-ui-1.8.16.custom.min.js'));
+
+$this->jQuery()->addStylesheet($this->baseUrl('assets/scripts/jquery/jquery.ui/css/cupertino/jquery-ui-1.8.16.custom.css'));
+$this->jQuery()->addStylesheet($this->baseUrl('assets/scripts/jquery/jquery-validate.password/jquery.validate.password.css'));
+
+$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jquery.metadata.js'));
+$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/superfish/js/hoverIntent.js'));
+$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jquery.bgiframe-2.1.2.js'));
+$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/superfish/js/superfish.js'));
+$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/superfish/js/supersubs.js'));
+$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jquery.form.js'));
+$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jquery-validation/jquery.validate.min.js'));
+$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jquery-validation/additional-methods.min.js'));
+$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jquery-validate.password/jquery.validate.password.js'));
+
+echo $this->jQuery();
+
 echo $this->headStyle();
 ?>
-<script type="text/javascript">
-dojo.addOnLoad(function(){
-  dojo.query(".main-menu li ul").prev().addClass('main-menu-has-children').append('<span class="main-menu-arrow"> »</span>');
-  dojo.query('a.link-button').forEach(function(node, index, array){
-	  if(dojo.hasAttr(node, 'iconClass')){
-	    var icon = dojo.attr(node,"iconClass");
-	  }else if(dojo.hasClass(node, 'link-icon')){
-		  dojo.removeClass(node, 'link-button');
-    	dojo.removeClass(node, 'link-icon');
-    	dojo.addClass(node, 'icon');
-      var icon = dojo.attr(node,"class");
-    }else{
-       var icon = null;
-    }
-	  new dijit.form.Button({
-      label: node.innerHTML,
-      iconClass: icon,
-      onClick: function() {
-        window.location = node.href;
-      }
-    },
-    node);
-  });
-});
-</script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('assets/scripts/simplecart.js');?>"></script>
+<?php echo $this->placeholder('headExtra'); ?>
 </head>
 <body class="claro">
   <header class="main-header">
@@ -58,13 +47,13 @@ dojo.addOnLoad(function(){
       <div class="welcome-message-container">
         <div class="welcome-message">Welcome, <?php echo $this->escape($this->identity->username);?></div>
         <nav class="header-navigation">
-          <a class="link-button link-icon icon-user" href="<?php echo $this->urlLink('admin', 'account');?>" title="Manage account profile">My Account</a>
-          <a class="link-button link-icon icon-logout" href="<?php echo $this->urlLink('admin', 'access', 'logout');?>" title="Log out">Log Out</a>
+          <a class="ui-button ui-widget ui-state-default ui-corner-all" data-icon="icon-user" href="<?php echo $this->urlLink('admin', 'account');?>" title="Manage account profile">My Account</a>
+          <a class="ui-button ui-widget ui-state-default ui-corner-all" data-icon="icon-logout" href="<?php echo $this->urlLink('admin', 'access', 'logout');?>" title="Log out">Log Out</a>
         </nav>
       </div>
     <?php endif;?>
     <nav class="main-navigation clearfix">
-      <?php echo $this->navigation()->menu()->setUlClass('main-menu')->render() ?>
+      <?php echo $this->navigation()->menu()->setUlClass('sf-menu')->render() ?>
     </nav>
   </header>
   <section class="content-container">

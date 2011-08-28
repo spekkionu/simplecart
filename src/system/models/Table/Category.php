@@ -31,4 +31,38 @@ class Table_Category extends Doctrine_Table
       $treeObject->setBaseQuery($q);
       return $treeObject->fetchTree();
     }
+
+    public function moveCategory($id, $ref, $position){
+      $treeObject = $this->getTree();
+      $category = $this->find($id);
+      if(!$category){
+        throw new Exception("Category not found.");
+      }
+      $ref = $this->find($ref);
+      if(!$ref){
+        throw new Exception("Reference category not found.");
+      }
+      switch($position){
+        case "inside":
+          // Add as First
+          //echo "move {$id} as first child of {$ref->id}";
+          $category->getNode()->moveAsFirstChildOf($ref);
+          return true;
+          break;
+        case "before":
+          //echo "move {$id} as prev sibling of {$ref->id}";
+          $category->getNode()->moveAsPrevSiblingOf($ref);
+          return true;
+          break;
+        case "after":
+          //echo "move {$id} as next sibling of {$ref->id}";
+          $category->getNode()->moveAsNextSiblingOf($ref);
+          return true;
+          break;
+        default:
+          throw new Exception("Invalid movement type.");
+          break;
+      }
+      throw new Exception("Could not find new location.");
+    }
 }

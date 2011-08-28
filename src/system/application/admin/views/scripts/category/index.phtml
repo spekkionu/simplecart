@@ -1,22 +1,57 @@
 <?php $this->headTitle('Manage Categories');?>
 <?php $this->pageHeader = 'Manage Categories'; ?>
-<?php $this->dojo()->requireModule("dojo.data.ItemFileWriteStore"); ?>
-<?php $this->dojo()->requireModule("dojox.data.QueryReadStore"); ?>
-<?php $this->dojo()->requireModule("dijit.tree.TreeStoreModel"); ?>
-<?php $this->dojo()->requireModule("dijit.Tree"); ?>
-<?php $this->dojo()->requireModule("dijit.tree.dndSource"); ?>
 
-<div dojoType="dojo.data.ItemFileWriteStore" jsId="continentStore" url="<?php echo $this->route('admin_category_data');?>">
 
-</div>
-<div dojoType="dijit.tree.TreeStoreModel" jsId="continentModel" store="continentStore"
-     rootId="0" rootLabel="Main" childrenAttrs="__children">
-  <script type="dojo/method" event="pasteItem" args="childItem, oldParentItem, newParentItem, bCopy, insertIndex">
-    
-  </script>
-</div>
-<div dojoType="dijit.Tree" id="mytree" model="continentModel" dndController="dijit.tree.dndSource" betweenThreshold="5" openOnClick="false">
-    <script type="dojo/method" event="onClick" args="item">
+<?php $this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jstree/jquery.jstree.js')); ?>
+<?php $this->jQuery()->addStylesheet($this->baseUrl('assets/scripts/jquery/jstree/themes/default/style.css')); ?>
 
-    </script>
-</div>
+<script type="text/javascript">
+$(function() {
+  $("#jstree").jstree({
+    plugins : [ "themes", "json_data", "ui", "dnd", "types" ],
+    ui: { select_limit: 1 },
+    types: {
+      valid_children : [ "root" ],
+      types: {
+        "default": { valid_children: ["default"] },
+        "root": {
+          hover_node : false,
+          valid_children: ["default"],
+          select_node: function () {return false;}
+        }
+      }
+    },
+    json_data: { data: <?php echo Zend_Json::encode($this->categories);?> },
+    dnd: { copy_modifier: false }
+  }).bind("move_node.jstree", function (e, data) {
+		data.rslt.o.each(function (i) {
+      data.inst.lock()
+			$.ajax({
+				type: 'POST',
+				url: "<?php echo $this->route('admin_category_move');?>",
+				data : {
+					"category" : $(this).data("id"),
+          "ref": data.rslt.r.data("id"),
+          "position": data.rslt.p
+				},
+				success : function (response) {
+          if(!response.success){
+            // The move request failed
+            data.inst.unlock();
+            $.jstree.rollback(data.rlbk);
+            simplecart.alert("Error", response.message);
+          }
+				},
+        error: function(){
+          // The move request failed
+          data.inst.unlock();
+          $.jstree.rollback(data.rlbk);
+          simplecart.alert("Error", "Failed to move category.");
+        }
+			});
+		});
+	});;
+});
+</script>
+
+<div id="jstree"></div>
