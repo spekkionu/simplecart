@@ -135,3 +135,13 @@ a.ui-button-text-only, a.ui-button-text-icon-primary{
 .page-navigation{
   margin: .5em 0 1em 0;
 }
+
+#category-tree{
+  width: 400px;
+  float:left;
+  min-height: 200px;
+}
+#category-details{
+
+  float:left;
+}

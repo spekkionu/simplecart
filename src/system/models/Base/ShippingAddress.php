@@ -69,6 +69,7 @@ abstract class Base_ShippingAddress extends Doctrine_Record
         $this->hasColumn('state', 'string', 2, array(
              'type' => 'string',
              'fixed' => 1,
+             'usstate' => true,
              'length' => '2',
              ));
         $this->hasColumn('zip', 'string', 5, array(

@@ -15,6 +15,7 @@
  * @property decimal $total
  * @property string $email
  * @property integer $user_id
+ * @property string $ip
  * @property enum $mode
  * @property Transaction $Transactions
  * @property OrderedItem $Items
@@ -110,6 +111,11 @@ abstract class Base_Order extends Doctrine_Record
              'type' => 'integer',
              'unsigned' => true,
              'length' => '4',
+             ));
+        $this->hasColumn('ip', 'string', 15, array(
+             'type' => 'string',
+             'ip' => true,
+             'length' => '15',
              ));
         $this->hasColumn('mode', 'enum', null, array(
              'type' => 'enum',

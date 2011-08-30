@@ -1,0 +1,37 @@
+<?php $this->headTitle('Delete Category');?>
+<?php $this->pageHeader = 'Delete Category'; ?>
+
+
+<?php if(!$this->can_delete):?>
+  <p class="warning">
+    <span class="icon icon-alert"></span>
+    You cannot delete a category that has subcategories.<br>
+    First delete the subcategories, then delete the parent category.
+  </p>
+<?php endif;?>
+
+<table class="border data-table">
+  <thead>
+  <tr>
+    <th colspan="2">Category Details</th>
+  </tr>
+  </thead>
+  <tr>
+    <th>Category:</th>
+    <td><?php echo $this->escape($this->category['name']);?></td>
+  </tr>
+  <tr>
+    <th>Path:</th>
+    <td>
+      /<?php echo $this->escape($this->category['path']);?>
+    </td>
+  </tr>
+  <tr>
+    <th>Active:</th>
+    <td><?php echo $this->escape($this->category['active']);?></td>
+  </tr>
+</table>
+  
+<?php if($this->can_delete):?>
+  <?php echo $this->form; ?>
+<?php endif;?>

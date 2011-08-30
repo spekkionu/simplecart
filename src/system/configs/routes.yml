@@ -178,13 +178,6 @@ admin_category:
     module: admin
     controller: category
     action: index
-admin_category_data:
-  type: Zend_Controller_Router_Route_Static
-  route: admin/category/load-data
-  defaults:
-    module: admin
-    controller: category
-    action: load-data
 admin_category_move:
   type: Zend_Controller_Router_Route_Static
   route: admin/category/move
@@ -193,20 +186,23 @@ admin_category_move:
     controller: category
     action: move
 admin_category_add:
-  type: Zend_Controller_Router_Route_Static
-  route: admin/category/add
+  route: admin/category/add/:parent
   defaults:
     module: admin
     controller: category
     action: add
+    parent: 0
+  reqs:
+    parent: \d+
 admin_category_details:
   route: admin/category/details/:id
   defaults:
     module: admin
     controller: category
     action: details
+    id:
   reqs:
-    id: \d+
+    id: \d*
 admin_category_edit:
   route: admin/category/edit/:id
   defaults:

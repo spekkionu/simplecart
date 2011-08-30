@@ -71,6 +71,7 @@ abstract class Base_Address extends Doctrine_Record
              ));
         $this->hasColumn('state', 'string', 2, array(
              'type' => 'string',
+             'usstate' => true,
              'fixed' => 1,
              'length' => '2',
              ));

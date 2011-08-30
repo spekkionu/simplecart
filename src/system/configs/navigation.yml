@@ -37,42 +37,29 @@
       reset_params: true
       visible: true
     -
-      id: main-menu-category-details
-      label: Category Details
-      title: Category details
-      route: admin_category_details
+      id: main-menu-category-edit
+      label: Edit Category
+      title: Edit category
+      route: admin_category_edit
       module: admin
       controller: category
-      action: details
+      action: edit
       resource: admin:category
-      privilege: view
-      reset_params: false
+      privilege: edit
+      reset_params: true
       visible: false
-      pages:
-        -
-          id: main-menu-category-edit
-          label: Edit Category
-          title: Edit category
-          route: admin_category_edit
-          module: admin
-          controller: category
-          action: edit
-          resource: admin:category
-          privilege: edit
-          reset_params: false
-          visible: false
-        -
-          id: main-menu-category-delete
-          label: Delete Category
-          title: Delete category
-          route: admin_category_delete
-          module: admin
-          controller: category
-          action: delete
-          resource: admin:category
-          privilege: delete
-          reset_params: false
-          visible: false
+    -
+      id: main-menu-category-delete
+      label: Delete Category
+      title: Delete category
+      route: admin_category_delete
+      module: admin
+      controller: category
+      action: delete
+      resource: admin:category
+      privilege: delete
+      reset_params: true
+      visible: false
 -
   id: main-menu-account
   label: My Account

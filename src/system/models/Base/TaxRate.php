@@ -22,6 +22,7 @@ abstract class Base_TaxRate extends Doctrine_Record
              'type' => 'string',
              'fixed' => 1,
              'primary' => true,
+             'usstate' => true,
              'length' => '2',
              ));
         $this->hasColumn('rate', 'decimal', 8, array(

@@ -7,7 +7,21 @@ Admin:
     lastname: Lastname
     active: true
     accesslevel: superadmin
-    
+
+Route:
+  Route_1:
+    path: catalog/category-1
+    type: category
+    active: true
+  Route_2:
+    path: catalog/category-2
+    type: category
+    active: true
+  Route_3:
+    path: catalog/category-2/category-3
+    type: category
+    active: true
+
 Category:
   NestedSet: true
   Root:
@@ -17,11 +31,16 @@ Category:
       Category_1:
         name: Category 1
         active: true
+        path: catalog/category-1
+        Route: Route_1
       Category_2:
         name: Category 2
         active: true
+        path: catalog/category-2
+        Route: Route_2
         children:
           Category_3:
             name: Category 3
-            path: category-2/category-3
+            path: catalog/category-2/category-3
             active: true
+            Route: Route_3

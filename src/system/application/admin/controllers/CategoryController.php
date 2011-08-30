@@ -17,32 +17,25 @@ class Admin_CategoryController extends SimpleCart_AdminController {
   }
 
   public function indexAction(){
-
-    $manager = Doctrine_Manager::getInstance();
-    $manager->registerHydrator('jstree', 'Hydrator_JsTree');
-
-    $table = Doctrine::getTable('Category');
-    $q = Doctrine_Query::create();
-    $q->select('id,name');
-    $q->from('Category');
-    $q->setHydrationMode('jstree');
-    $treeObject = $table->getTree();
-    $treeObject->setBaseQuery($q);
-    $categories = $treeObject->fetchTree();
+    $categories = Doctrine::getTable('Category')->getCategoryTree();
     $this->view->categories = $categories;
 
   }
 
-  public function loadDataAction(){
-    if(!$this->getRequest()->isXmlHttpRequest()){
+  public function detailsAction(){
+    if($this->getRequest()->isXmlHttpRequest()){
+      // Disable Layout for AJAX Requests
+      $this->_helper->layout->disableLayout();
+    }
+    $id = intval($this->getRequest()->getParam('id'));
+    if(!$id){
       return $this->_forward('not-found', 'error', 'default');
     }
-    $categories = Doctrine::getTable('Category')->getCategoryTree();
-    return $this->sendJson(array(
-      'identifier' => 'id',
-      'label' => 'name',
-      'items' => $categories
-    ));
+    $category = Doctrine::getTable('Category')->getCategory($id);
+    if(!$category){
+      return $this->_forward('not-found', 'error', 'default');
+    }
+    $this->view->category = $category;
   }
 
   public function moveAction(){
@@ -64,18 +57,109 @@ class Admin_CategoryController extends SimpleCart_AdminController {
   }
 
   public function addAction(){
+    $id = $this->getRequest()->getParam('parent');
+    $parent = Doctrine::getTable('Category')->getCategory($id);
+    if(!$parent){
+      $id = NULL;
+    }
+    $form = new Form_Category();
+    $form->addDbValidators();
+    if($id){
+      $form->getElement('parent')->setValue($id);
+    }
+    if($this->getRequest()->isPost()){
+      if($form->isValid($this->getRequest()->getPost())){
+        try{
+          $values = $form->getValues();
+          Doctrine::getTable('Category')->addCategory($values);
+          $this->addMessage("Category {$values['name']} added.", 'success');
+          return $this->routeRedirect("admin_category");
+        }catch(Exception $e){
+          $this->logError("Error adding new category. - {$e->getMessage()}");
+          $this->addMessage("Error adding category", 'error');
+          return $this->routeRedirect('admin_category_add', array('parent'=>$values['parent']));
+        }
+      }
+      // Refresh parent category
+      $id = $form->getElement('parent')->getValue();
+    }
+    $this->view->form = $form;
+    // Pass the parent category
+    $this->view->parent = $id;
+    // Pass Categories
+    $categories = Doctrine::getTable('Category')->getCategoryTree();
+    $this->view->categories = $categories;
 
-  }
-
-  public function detailsAction(){
-
+    // Activate Menu Items
+    $container = Zend_Registry::get('Zend_Navigation');
+    $found = $container->findOneByRoute('admin_category_add');
+    $found->set('params', array('parent'=>$id));
   }
 
   public function editAction(){
+    $id = $this->getRequest()->getParam('id');
+    $category = Doctrine::getTable('Category')->find($id);
+    if(!$id){
+      return $this->_forward('not-found', 'error', 'default');
+    }
+    $form = new Form_Category();
+    $form->removeElement('parent');
+    $form->addDbValidators($category->route_id);
+    $form->populate($category->toArray());
+    if($this->getRequest()->isPost()){
+      if($form->isValid($this->getRequest()->getPost())){
+        try{
+          $values = $form->getValues();
+          Doctrine::getTable('Category')->updateCategory($category, $values);
+          $this->addMessage("Category {$values['name']} updated.", 'success');
+          return $this->routeRedirect("admin_category");
+        }catch(Exception $e){
+          $this->logError("Error updating category. - {$e->getMessage()}");
+          $this->addMessage("Error updating category", 'error');
+          return $this->routeRedirect('admin_category_edit', array('id'=>$id));
+        }
+      }
+    }
 
+    $this->view->form = $form;
+    $this->view->category = $category;
+    // Activate Menu Items
+    $container = Zend_Registry::get('Zend_Navigation');
+    $found = $container->findOneByRoute('admin_category_edit');
+    $found->setVisible(true);
+    $found->set('params', array('id'=>$id));
   }
 
   public function deleteAction(){
-
+    $id = $this->getRequest()->getParam('id');
+    $category = Doctrine::getTable('Category')->find($id);
+    if(!$id){
+      return $this->_forward('not-found', 'error', 'default');
+    }
+    $can_delete = !$category->getNode()->hasChildren();
+    if($can_delete){
+      $form = new Form_Delete();
+      if($this->getRequest()->isPost()){
+        if($form->isValid($this->getRequest()->getPost())){
+          try{
+            Doctrine::getTable('Category')->deleteCategory($category);
+            $this->addMessage("Category {$category['name']} deleted.", 'success');
+            return $this->routeRedirect("admin_category");
+          }catch(Exception $e){
+            $this->logError("Error deleting category. - {$e->getMessage()}");
+            $this->addMessage("Error deleting category", 'error');
+            return $this->routeRedirect('admin_category_delete', array('id'=>$id));
+          }
+        }
+      }
+      $this->view->form = $form;
+    }
+    $this->view->category = $category;
+    $this->view->can_delete = $can_delete;
+    // Activate Menu Items
+    $container = Zend_Registry::get('Zend_Navigation');
+    $found = $container->findOneByRoute('admin_category_delete');
+    $found->setVisible(true);
+    $found->set('params', array('id'=>$id));
   }
 }

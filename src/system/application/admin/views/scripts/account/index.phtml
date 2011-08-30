@@ -2,8 +2,8 @@
 <?php $this->pageHeader = 'My Account';?>
 
 <nav class="page-navigation">
-  <a href="<?php echo $this->route('admin_account_profile');?>" class="link-button link-icon icon-user">Edit Profile</a>
-  <a href="<?php echo $this->route('admin_account_password');?>" class="link-button link-icon icon-key">Change Password</a>
+  <a href="<?php echo $this->route('admin_account_profile');?>" data-icon="icon-user" class="ui-button ui-widget ui-state-default ui-corner-all">Edit Profile</a>
+  <a href="<?php echo $this->route('admin_account_password');?>" data-icon="icon-key" class="ui-button ui-widget ui-state-default ui-corner-all">Change Password</a>
 </nav>
 
 <table class="border data-table">
@@ -31,5 +31,5 @@
     <th>Last Login:</th>
     <td><?php echo $this->dateFormat($this->profile['last_login'], 'm/d/Y h:i a');?></td>
   </tr>
-  
+
 </table>

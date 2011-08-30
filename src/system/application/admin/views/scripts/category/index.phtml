@@ -7,7 +7,7 @@
 
 <script type="text/javascript">
 $(function() {
-  $("#jstree").jstree({
+  $("#category-tree").jstree({
     plugins : [ "themes", "json_data", "ui", "dnd", "types" ],
     ui: { select_limit: 1 },
     types: {
@@ -23,7 +23,27 @@ $(function() {
     },
     json_data: { data: <?php echo Zend_Json::encode($this->categories);?> },
     dnd: { copy_modifier: false }
-  }).bind("move_node.jstree", function (e, data) {
+  })
+  .bind("select_node.jstree", function(e, data){
+    var url = "<?php echo $this->route('admin_category_details');?>/";
+    var selected = data.inst.get_selected();
+    if(!selected){
+      // If no nodes are selected, clear details
+      $('#category-details').hide().empty();
+      return;
+    }
+    var id = $(selected).data("id");
+    $('#category-details .ui-button').button( "disable" );
+    // Load Details
+    $('#category-details').load(url+id, function(responseText, textStatus, XMLHttpRequest){
+      $('#category-details').show();
+    });
+  })
+  .bind("deselect_node.jstree", function(e, data){
+    var selected = data.inst.get_selected();
+    $('#category-details').hide().empty();
+  })
+  .bind("move_node.jstree", function (e, data) {
 		data.rslt.o.each(function (i) {
       data.inst.lock()
 			$.ajax({
@@ -54,4 +74,7 @@ $(function() {
 });
 </script>
 
-<div id="jstree"></div>
+<div class="clearfix">
+  <div id="category-tree"></div>
+  <div id="category-details" class="ui-helper-hidden"></div>
+</div>

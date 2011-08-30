@@ -1,0 +1,39 @@
+<?php $this->headTitle('Add Category');?>
+<?php $this->pageHeader = 'Add Category'; ?>
+
+<?php $this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jstree/jquery.jstree.js')); ?>
+<?php $this->jQuery()->addStylesheet($this->baseUrl('assets/scripts/jquery/jstree/themes/default/style.css')); ?>
+
+<script type="text/javascript">
+$(function() {
+  $(".parent-tree").jstree({
+    plugins : [ "themes", "json_data", "ui" ],
+    ui: {
+      select_limit: 1,
+      initially_select: [ "jstree-node-<?php echo $this->escape($this->parent);?>" ]
+    },
+    json_data: { data: <?php echo Zend_Json::encode($this->categories);?> }
+  })
+  .bind("select_node.jstree", function(e, data){
+    var selected = data.inst.get_selected();
+    if(selected){
+      var id = $(selected).data('id');
+      $('#parent').val(id);
+    }else{
+      $('#parent').val('');
+    }
+  })
+  .bind("deselect_node.jstree", function(e, data){
+    var selected = data.inst.get_selected();
+    if(selected){
+      var id = $(selected).data('id');
+      $('#parent').val(id);
+    }else{
+      $('#parent').val('');
+    }
+  });
+});
+</script>
+
+
+<?php echo $this->form; ?>

@@ -9,6 +9,7 @@
  * @property string $sku
  * @property string $name
  * @property string $path
+ * @property integer $route_id
  * @property boolean $active
  * @property decimal $price
  * @property clob $short_description
@@ -17,6 +18,7 @@
  * @property decimal $shipping
  * @property decimal $additional_shipping
  * @property Doctrine_Collection $Categories
+ * @property Route $Route
  * 
  * @package    SimpleCart
  * @subpackage Models
@@ -51,7 +53,17 @@ abstract class Base_Product extends Doctrine_Record
         $this->hasColumn('path', 'string', 255, array(
              'type' => 'string',
              'unique' => true,
+             'notnull' => true,
+             'notblank' => true,
              'length' => '255',
+             ));
+        $this->hasColumn('route_id', 'integer', 4, array(
+             'type' => 'integer',
+             'unique' => true,
+             'unsigned' => true,
+             'notnull' => true,
+             'notblank' => true,
+             'length' => '4',
              ));
         $this->hasColumn('active', 'boolean', null, array(
              'type' => 'boolean',
@@ -102,5 +114,10 @@ abstract class Base_Product extends Doctrine_Record
              'refClass' => 'ProductCategory',
              'local' => 'product_id',
              'foreign' => 'category_id'));
+
+        $this->hasOne('Route', array(
+             'local' => 'route_id',
+             'foreign' => 'id',
+             'owningSide' => true));
     }
 }

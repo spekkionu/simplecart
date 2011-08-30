@@ -34,7 +34,7 @@ class SimpleCart_Form extends ZendX_JQuery_Form {
     'ViewHelper',
     array('Description', array('tag' => 'div', 'class'=>'form-description', 'placement'=>'append', 'escape'=>false)),
     'Errors',
-    array('Label', array('placement'=>'prepend')),
+    array('Label', array('placement'=>'prepend', 'class'=>'form-label')),
     array(array('element'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-element')),
     array(array('row'=>'HtmlTag'), array('tag' => 'div', 'class'=>'form-row'))
   );

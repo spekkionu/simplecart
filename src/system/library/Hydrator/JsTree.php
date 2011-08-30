@@ -21,7 +21,7 @@ class Hydrator_JsTree extends Doctrine_Hydrator_ArrayDriver {
 
       foreach ($collection as $child) {
         $item = $child;
-
+        $item['attr']['id'] = "jstree-node-".$child['id'];
         $item['metadata']['id'] = $child['id'];
         $item['data']['title'] = $item['name'];
         $item['state'] = 'open';

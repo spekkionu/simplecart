@@ -17,16 +17,46 @@ class Table_Category extends Doctrine_Table
         return Doctrine_Core::getTable('Category');
     }
 
+    /**
+     * Fetches a single category
+     * @param int $id
+     * @return array
+     */
+    public function getCategory($id){
+      $category = $this->find($id);
+      $has_children = $category->getNode()->hasChildren();
+      $category = $category->toArray();
+      $category['has_children'] = $has_children;
+      return $category;
+    }
+
+    /**
+     * Returns flat category array pairs
+     * @return array
+     */
+    public function getCategories(){
+      $manager = Doctrine_Manager::getInstance();
+      $manager->registerHydrator('pairs', 'Hydrator_Pairs');
+      $q = Doctrine_Query::create();
+      $q->select('id,name');
+      $q->from('Category');
+      $q->orderBy('lft ASC');
+      $q->setHydrationMode('pairs');
+      return $q->execute();
+    }
+
 
     /**
      * Returns category tree
      * @return array
      */
     public function getCategoryTree(){
+      $manager = Doctrine_Manager::getInstance();
+      $manager->registerHydrator('jstree', 'Hydrator_JsTree');
       $q = Doctrine_Query::create();
-      $q->select('id,name,level');
+      $q->select('id,name');
       $q->from('Category');
-      $q->setHydrationMode(Doctrine::HYDRATE_ARRAY_HIERARCHY);
+      $q->setHydrationMode('jstree');
       $treeObject = $this->getTree();
       $treeObject->setBaseQuery($q);
       return $treeObject->fetchTree();
@@ -64,5 +94,54 @@ class Table_Category extends Doctrine_Table
           break;
       }
       throw new Exception("Could not find new location.");
+    }
+
+    /**
+     * Adds a new category
+     * @param array $data
+     * @return Category
+     */
+    public function addCategory(array $data){
+      $parent = $this->find($data['parent']);
+      if(!$parent){
+        throw new Validate_Exception("Invalid parent category.");
+      }
+      $category = $this->create();
+      $category->name = $data['name'];
+      $category->path = $data['path'];
+      $category->active = (bool)$data['active'];
+      // Also add route
+      $category->Route->path = $data['path'];
+      $category->Route->type = 'category';
+      $category->Route->active = (bool)$data['active'];
+      $category->getNode()->insertAsLastChildOf($parent);
+
+      return $category;
+    }
+
+    /**
+     * Updates a category
+     * @param Category $category
+     * @param array $data
+     * @return Category
+     */
+    public function updateCategory(Category $category, array $data){
+      $category->name = $data['name'];
+      $category->path = $data['path'];
+      $category->active = (bool)$data['active'];
+      // Also Update Route
+      $category->Route->path = $data['path'];
+      $category->Route->active = (bool)$data['active'];
+      $category->save();
+      return $category;
+    }
+
+    public function deleteCategory(Category $category){
+      // Save route instance
+      $route = $category->Route;
+      // Delete node, this will bubble to other relations
+      $category->getNode()->delete();
+      // Delete route
+      $route->delete();
     }
 }

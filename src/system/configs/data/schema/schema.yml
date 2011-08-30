@@ -172,6 +172,7 @@ Address:
       type: string(40)
     state:
       type: string(2)
+      usstate: true
       fixed: true
     zip:
       type: string(5)
@@ -196,6 +197,10 @@ Category:
     path:
       type: string(255)
       unique: true
+    route_id:
+      type: integer(4)
+      unique: true
+      unsigned: true
     active:
       type: boolean
       default: false
@@ -208,6 +213,12 @@ Category:
       local: category_id
       foreignType: many
       refClass: ProductCategory
+    Route:
+      class: Route
+      local: route_id
+      foreign: id
+      foreignType: one
+      owningSide: true
 
 Product:
   columns:
@@ -228,6 +239,14 @@ Product:
     path:
       type: string(255)
       unique: true
+      notnull: true
+      notblank: true
+    route_id:
+      type: integer(4)
+      unique: true
+      unsigned: true
+      notnull: true
+      notblank: true
     active:
       type: boolean
       default: false
@@ -267,6 +286,12 @@ Product:
       foreign: category_id
       foreignType: many
       refClass: ProductCategory
+    Route:
+      class: Route
+      local: route_id
+      foreign: id
+      foreignType: one
+      owningSide: true
 
 ProductCategory:
   tableName: product_category
@@ -290,6 +315,7 @@ TaxRate:
       type: string(2)
       fixed: true
       primary: true
+      usstate: true
     rate:
       type: decimal
       length: 8
@@ -382,6 +408,9 @@ Order:
     user_id:
       type: integer(4)
       unsigned: true
+    ip:
+      type: string(15)
+      ip: true
     mode:
       type: enum
       values: [live,test]
@@ -537,6 +566,7 @@ BillingAddress:
     state:
       type: string(2)
       fixed: true
+      usstate: true
     zip:
       type: string(5)
       fixed: true
@@ -577,6 +607,7 @@ ShippingAddress:
     state:
       type: string(2)
       fixed: true
+      usstate: true
     zip:
       type: string(5)
       fixed: true
@@ -589,6 +620,42 @@ ShippingAddress:
       foreign: id
       foreignType: one
       owningSide: true
+
+Route:
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      unsigned: true
+      autoincrement: true
+    path:
+      type: string(255)
+      unique: true
+      notnull: true
+      notblank: true
+      regexp: '/^[a-z0-9-_\/\.]+$/'
+    type:
+      type: enum
+      values: [category,product,page]
+    active:
+      type: boolean
+      default: true
+      notnull: true
+      unsigned: true
+  relations:
+    Category:
+      class: Category
+      local: id
+      foreign: route_id
+      foreignType: one
+      owningSide: false
+    Product:
+      class: Product
+      local: id
+      foreign: route_id
+      foreignType: one
+      owningSide: false
+
 
 Setting:
   columns:

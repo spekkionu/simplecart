@@ -8,8 +8,10 @@
  * @property integer $id
  * @property string $name
  * @property string $path
+ * @property integer $route_id
  * @property boolean $active
  * @property Doctrine_Collection $Products
+ * @property Route $Route
  * 
  * @package    SimpleCart
  * @subpackage Models
@@ -39,6 +41,12 @@ abstract class Base_Category extends Doctrine_Record
              'unique' => true,
              'length' => '255',
              ));
+        $this->hasColumn('route_id', 'integer', 4, array(
+             'type' => 'integer',
+             'unique' => true,
+             'unsigned' => true,
+             'length' => '4',
+             ));
         $this->hasColumn('active', 'boolean', null, array(
              'type' => 'boolean',
              'default' => false,
@@ -54,6 +62,11 @@ abstract class Base_Category extends Doctrine_Record
              'refClass' => 'ProductCategory',
              'local' => 'category_id',
              'foreign' => 'product_id'));
+
+        $this->hasOne('Route', array(
+             'local' => 'route_id',
+             'foreign' => 'id',
+             'owningSide' => true));
 
         $nestedset0 = new Doctrine_Template_NestedSet(array(
              'hasManyRoots' => false,

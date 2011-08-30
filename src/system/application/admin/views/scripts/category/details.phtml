@@ -1,0 +1,42 @@
+<script type="text/javascript">
+// Make all buttons jquery-ui buttons
+$( "input:submit, button, input:button, a.ui-button" ).each(function(){
+  var icon = $(this).data('icon');
+  if(icon){
+    $(this).button({ icons:{primary:icon} });
+  }else{
+    $(this).button();
+  }
+});
+</script>
+<nav class="page-navigation">
+  <a class="ui-button ui-widget ui-state-default ui-corner-all" data-icon="icon-add" href="<?php echo $this->route('admin_category_add', array('parent'=>$this->category['id']));?>">Add Child Category</a>
+  <?php if($this->category['level'] > 0):?>
+    <a class="ui-button ui-widget ui-state-default ui-corner-all" data-icon="icon-edit" href="<?php echo $this->route('admin_category_edit', array('id'=>$this->category['id']));?>">Edit Category</a>
+    <?php if(!$this->category['has_children']):?>
+      <a class="ui-button ui-widget ui-state-default ui-corner-all" data-icon="icon-delete" href="<?php echo $this->route('admin_category_delete', array('id'=>$this->category['id']));?>">Delete Category</a>
+    <?php endif;?>
+  <?php endif;?>
+</nav>
+
+<table class="border data-table">
+  <thead>
+  <tr>
+    <th colspan="2">Category Details</th>
+  </tr>
+  </thead>
+  <tr>
+    <th>Category:</th>
+    <td><?php echo $this->escape($this->category['name']);?></td>
+  </tr>
+  <tr>
+    <th>Path:</th>
+    <td>
+      /<?php echo $this->escape($this->category['path']);?>
+    </td>
+  </tr>
+  <tr>
+    <th>Active:</th>
+    <td><?php echo $this->escape($this->category['active']);?></td>
+  </tr>
+</table>
