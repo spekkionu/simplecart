@@ -3,6 +3,6 @@
 class ErrorLogger {
 
 
-  public 
+  
 
 }

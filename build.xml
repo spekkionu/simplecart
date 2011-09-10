@@ -5,88 +5,175 @@
  <property name="source" value="src"/>
 
  <target name="clean" description="Clean up and create artifact directories">
-  <delete dir="${basedir}/build/api"/>
-  <delete dir="${basedir}/build/code-browser"/>
-  <delete dir="${basedir}/build/coverage"/>
-  <delete dir="${basedir}/build/logs"/>
-  <delete dir="${basedir}/build/pdepend"/>
+  <delete dir="build/api"/>
+  <delete dir="build/code-browser"/>
+  <delete dir="build/coverage"/>
+  <delete dir="build/logs"/>
+  <delete dir="build/pdepend"/>
 
-  <mkdir dir="${basedir}/build/api"/>
-  <mkdir dir="${basedir}/build/code-browser"/>
-  <mkdir dir="${basedir}/build/coverage"/>
-  <mkdir dir="${basedir}/build/logs"/>
-  <mkdir dir="${basedir}/build/pdepend"/>
+  <mkdir dir="build/api"/>
+  <mkdir dir="build/code-browser"/>
+  <mkdir dir="build/coverage"/>
+  <mkdir dir="build/logs"/>
+  <mkdir dir="build/pdepend"/>
  </target>
 
  <target name="phpunit" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
-  <exec executable="phpunit" failonerror="true"/>
- </target>
-
- <target name="parallelTasks" description="Run the pdepend, phpmd, phpcpd, phpcs, phpdoc and phploc tasks in parallel using a maximum of 2 threads.">
-  <parallel threadCount="2">
-   <sequential>
-    <antcall target="pdepend"/>
-    <antcall target="phpmd"/>
-   </sequential>
-   <antcall target="phpcpd"/>
-   <antcall target="phpcs"/>
-   <antcall target="phpdoc"/>
-   <antcall target="phploc"/>
-  </parallel>
+  <coverage-setup database="build/coverage/coverage.db">
+    <fileset dir="${source}/system">
+      <include name="application/**.php" />
+      <include name="forms/**.php" />
+      <include name="models/**.php" />
+      <include name="library/**.php" />
+      <exclude name="library/Doctrine/*" />
+      <exclude name="library/Zend/*" />
+      <exclude name="library/ZendX/*" />
+      <exclude name="library/Kint/*" />
+      <exclude name="library/sfEventDispatcher/*" />
+      <exclude name="library/sfYaml/*" />
+      <exclude name="library/WideImage/*" />
+      <exclude name="library/ZFDebug/*" />
+      <exclude name="library/Danceric/*" />
+      <exclude name="library/Imind/*" />
+    </fileset>
+  </coverage-setup>
+  <phpunit haltonerror="true" bootstrap="tests/unit/bootstrap.php" codecoverage="true" >
+    <formatter type="clover" todir="build/logs" outfile="clover.xml"></formatter>
+    <formatter type="xml" todir="build/logs" outfile="junit.xml"></formatter>
+    <batchtest>
+      <fileset dir="tests/unit">
+        <include name="**/*Test*.php"/>
+        <exclude name="bootstrap.php"/>
+      </fileset>
+    </batchtest>
+  </phpunit>
+  <coverage-report outfile="build/logs/coverage.xml">
+    <report todir="build/coverage" styledir="scripts"/>
+  </coverage-report>
  </target>
 
  <target name="pdepend" description="Generate jdepend.xml and software metrics charts using PHP_Depend">
-  <exec executable="pdepend">
-   <arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml
-              --jdepend-chart=${basedir}/build/pdepend/dependencies.svg
-              --overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg
-              ${source}" />
-  </exec>
+  <phpdepend>
+    <fileset dir="${source}/system">
+      <include name="application/**.php" />
+      <include name="forms/**.php" />
+      <include name="models/**.php" />
+      <include name="library/**.php" />
+      <exclude name="library/Doctrine/*" />
+      <exclude name="library/Zend/*" />
+      <exclude name="library/ZendX/*" />
+      <exclude name="library/Kint/*" />
+      <exclude name="library/sfEventDispatcher/*" />
+      <exclude name="library/sfYaml/*" />
+      <exclude name="library/WideImage/*" />
+      <exclude name="library/ZFDebug/*" />
+      <exclude name="library/Danceric/*" />
+      <exclude name="library/Imind/*" />
+   </fileset>
+   <logger type="jdepend-xml" outfile="build/logs/jdepend.xml"/>
+   <logger type="jdepend-chart" outfile="build/pdepend/dependencies.svg"/>
+   <logger type="overview-pyramid" outfile="build/pdepend/overview-pyramid.svg"/>
+  </phpdepend>
  </target>
 
  <target name="phpmd" description="Generate pmd.xml using PHPMD">
-  <exec executable="phpmd">
-   <arg line="${source}
-              xml
-              codesize,design,naming,unusedcode
-              --reportfile ${basedir}/build/logs/pmd.xml" />
-  </exec>
+  <phpmd rulesets="codesize,design,naming,unusedcode">
+    <fileset dir="${source}/system">
+      <include name="application/**.php" />
+      <include name="forms/**.php" />
+      <include name="models/**.php" />
+      <include name="library/**.php" />
+      <exclude name="library/Doctrine/*" />
+      <exclude name="library/Zend/*" />
+      <exclude name="library/ZendX/*" />
+      <exclude name="library/Kint/*" />
+      <exclude name="library/sfEventDispatcher/*" />
+      <exclude name="library/sfYaml/*" />
+      <exclude name="library/WideImage/*" />
+      <exclude name="library/ZFDebug/*" />
+      <exclude name="library/Danceric/*" />
+      <exclude name="library/Imind/*" />
+   </fileset>
+    <formatter type="xml" outfile="build/logs/pmd.xml"/>
+  </phpmd>
  </target>
 
  <target name="phpcpd" description="Generate pmd-cpd.xml using PHPCPD">
-  <exec executable="phpcpd">
-   <arg line="--log-pmd ${basedir}/build/logs/pmd-cpd.xml ${source}" />
-  </exec>
+  <phpcpd>
+    <fileset dir="${source}/system">
+      <include name="application/**.php" />
+      <include name="forms/**.php" />
+      <include name="models/**.php" />
+      <include name="library/**.php" />
+      <exclude name="library/Doctrine/*" />
+      <exclude name="library/Zend/*" />
+      <exclude name="library/ZendX/*" />
+      <exclude name="library/Kint/*" />
+      <exclude name="library/sfEventDispatcher/*" />
+      <exclude name="library/sfYaml/*" />
+      <exclude name="library/WideImage/*" />
+      <exclude name="library/ZFDebug/*" />
+      <exclude name="library/Danceric/*" />
+      <exclude name="library/Imind/*" />
+   </fileset>
+    <formatter type="pmd" outfile="build/logs/pmd-cpd.xml"/>
+  </phpcpd>
  </target>
 
  <target name="phploc" description="Generate phploc.csv">
-  <exec executable="phploc">
-   <arg line="--log-csv ${basedir}/build/logs/phploc.csv ${source}" />
-  </exec>
+  <exec command="phploc --log-csv build/logs/phploc.csv ${source}/system"/>
  </target>
 
  <target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
-  <exec executable="phpcs" output="/dev/null">
-   <arg line="--report=checkstyle
-              --report-file=${basedir}/build/logs/checkstyle.xml
-              --standard=PEAR
-              ${source}" />
-  </exec>
+  <phpcodesniffer standard="Zend" showWarnings="false">
+    <fileset dir="${source}/system">
+      <include name="application/**.php" />
+      <include name="forms/**.php" />
+      <include name="models/**.php" />
+      <include name="library/**.php" />
+      <exclude name="library/Doctrine/*" />
+      <exclude name="library/Zend/*" />
+      <exclude name="library/ZendX/*" />
+      <exclude name="library/Kint/*" />
+      <exclude name="library/sfEventDispatcher/*" />
+      <exclude name="library/sfYaml/*" />
+      <exclude name="library/WideImage/*" />
+      <exclude name="library/ZFDebug/*" />
+      <exclude name="library/Danceric/*" />
+      <exclude name="library/Imind/*" />
+   </fileset>
+    <formatter type="checkstyle" outfile="build/logs/checkstyle.xml"/>
+  </phpcodesniffer>
  </target>
 
  <target name="phpdoc" description="Generate API documentation using PHPDocumentor">
-  <exec executable="phpdoc">
-   <arg line="-d ${source} -t ${basedir}/build/api" />
-  </exec>
+  <phpdoc destdir="build/api" parseprivate="true" output="HTML:Smarty:PHP">
+    <fileset dir="${source}/system">
+      <include name="application/**.php" />
+      <include name="forms/**.php" />
+      <include name="models/**.php" />
+      <include name="library/**.php" />
+      <exclude name="library/Doctrine/*" />
+      <exclude name="library/Zend/*" />
+      <exclude name="library/ZendX/*" />
+      <exclude name="library/Kint/*" />
+      <exclude name="library/sfEventDispatcher/*" />
+      <exclude name="library/sfYaml/*" />
+      <exclude name="library/WideImage/*" />
+      <exclude name="library/ZFDebug/*" />
+      <exclude name="library/Danceric/*" />
+      <exclude name="library/Imind/*" />
+   </fileset>
+    <projdocfileset dir="${project.basedir}">
+      <include name="README" />
+      <include name="INSTALL" />
+    </projdocfileset>
+  </phpdoc>
  </target>
 
  <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
-  <exec executable="phpcb">
-   <arg line="--log    ${basedir}/build/logs
-              --source ${source}
-              --output ${basedir}/build/code-browser" />
-  </exec>
+  <exec command="phpcb --log build/logs --source ${source}/system --output build/code-browser" />
  </target>
 
- <target name="build" depends="clean,parallelTasks,phpunit,phpcb"/>
+ <target name="build" depends="clean,pdepend,phpmd,phpcpd,phpcs,phpdoc,phploc,phpunit,phpcb"/>
 </project>
