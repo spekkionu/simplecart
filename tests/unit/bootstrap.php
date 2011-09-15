@@ -1,11 +1,11 @@
 <?php
 
-define('SYSTEM', dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'system');
-if(!defined('WEBROOT')){
-  define('WEBROOT', $_SERVER['DOCUMENT_ROOT']);
-}
+define('TESTDIR', dirname(dirname(__FILE__)));
+define('DATADIR', TESTDIR.DIRECTORY_SEPARATOR.'data');
+define('SYSTEM', dirname(TESTDIR).DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'system');
 
-// Set Include Path
+
+// Set Include Path, must include phpunit
 set_include_path(
   // Application Library Files
   SYSTEM . DIRECTORY_SEPARATOR.'library'.PATH_SEPARATOR.
@@ -32,19 +32,16 @@ Zend_Registry::set('config', $config);
 ini_set('default_charset', 'UTF-8');
 
 // Set Timezone
-date_default_timezone_set($config->locale->timezone);
+date_default_timezone_set('America/Los_Angeles');
 
 
 SimpleCart_Cache::setConfig($config->cache->toArray());
-SimpleCart_Cache::setCacheDir(SYSTEM.DIRECTORY_SEPARATOR.'cache');
+SimpleCart_Cache::setCacheDir(DATADIR.DIRECTORY_SEPARATOR.'cache');
 
 // Set Locale
-Zend_Locale::setDefault($config->locale->locale);
-$locale = new Zend_Locale($config->locale->locale);
+Zend_Locale::setDefault('en_US');
+$locale = new Zend_Locale('en_US');
 Zend_Registry::set('Zend_Locale', $locale);
-
-// Setup Cache Settings
-$config->cache->cache_dir = realpath( SYSTEM.'/cache');
 
 // Add Form Autoloader Resource
 $resourceLoader = new Zend_Loader_Autoloader_Resource(array(
@@ -53,14 +50,11 @@ $resourceLoader = new Zend_Loader_Autoloader_Resource(array(
 ));
 $resourceLoader->addResourceType('form', 'forms/', 'Form');
 
-error_reporting($config->debug->error_reporting);
-ini_set('display_errors', $config->debug->display_errors);
-
-if($config->debug->error_logging){
-  // Turn on error logging
-  ini_set('error_log', SYSTEM . '/logs/php_errors.log');
-  ini_set('log_errors', 1);
-}
+error_reporting(0);
+ini_set('display_errors', 0);
+// Turn off error logging
+ini_set('error_log', DATADIR . '/logs/php_errors.log');
+ini_set('log_errors', 0);
 
 // Setup Default Mail Transport
 if($config->mail->type == 'smtp'){
@@ -80,7 +74,7 @@ if($config->mail->type == 'smtp'){
 }
 
 // Setup Email Template class
-require_once(SYSTEM.'/models/EmailTemplates.php');
+require(SYSTEM.'/models/EmailTemplates.php');
 EmailTemplates::setConfig($config->mail);
 EmailTemplates::setTemplateDir(SYSTEM.'/configs/emails');
 
@@ -96,44 +90,8 @@ $manager->setAttribute(Doctrine_Core::ATTR_AUTO_ACCESSOR_OVERRIDE, true);
 $manager->setCharset( 'utf8' );
 $manager->setCollate( 'utf8_unicode_ci' );
 // Set DSN
-if($config->database->phptype == 'sqlite'){
-  $config->database->dsn = "sqlite:///".SYSTEM."/cache/".$config->database->database.".sqlite?mode=666";
-}else{
-  $config->database->dsn = $config->database->phptype .
-                        '://' . $config->database->username .
-                        ':' . $config->database->password.
-                        '@' . $config->database->hostspec .
-                        '/' . $config->database->database .
-                        '?' . http_build_query($config->database->options, '', '&');
-}
+$config->database->dsn = "sqlite:///".DATADIR."/cache/testdb.db?mode=666";
 // Connect to database
 $conn = Doctrine_Manager::connection($config->database->dsn);
 Doctrine_Core::loadModels(SYSTEM.'/models');
 
-// Setup Query Profiling
-if($config->debug->database){
-  // Setup Query Profiler
-  if($config->debug->firebug){
-    $profiler = new Imind_Profiler_Doctrine_Firebug();
-  }else{
-    $profiler = new Doctrine_Connection_Profiler();
-  }
-  $conn->setListener($profiler);
-}
-
-// Setup Zend_Currency
-$cache = SimpleCart_Cache::getCache('currency');
-Zend_Currency::setCache($cache);
-$currency = new Zend_Currency();
-Zend_Registry::set('Zend_Currency', $currency);
-
-// Start Session
-Zend_Session::start();
-
-// Initialize Auth Class
-$auth = Zend_Auth::getInstance();
-$auth->setStorage(new Zend_Auth_Storage_Session('simplecart_auth'));
-
-// Initialize Acl
-$acl = require_once(SYSTEM.'/configs/acl.php');
-Zend_Registry::set('Zend_Acl', $acl);
