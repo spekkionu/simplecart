@@ -21,20 +21,25 @@
  <target name="phpunit" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
   <coverage-setup database="build/coverage/coverage.db">
     <fileset dir="${source}/system">
-      <include name="application/**.php" />
       <include name="forms/**.php" />
       <include name="models/**.php" />
       <include name="library/**.php" />
+      <exclude name="library/Doctrine.php" />
       <exclude name="library/Doctrine/*" />
       <exclude name="library/Zend/*" />
       <exclude name="library/ZendX/*" />
+      <exclude name="library/Danceric/*" />
       <exclude name="library/Kint/*" />
+      <exclude name="library/Kint.php" />
       <exclude name="library/sfEventDispatcher/*" />
       <exclude name="library/sfYaml/*" />
       <exclude name="library/WideImage/*" />
+      <exclude name="library/WideImage.php" />
       <exclude name="library/ZFDebug/*" />
       <exclude name="library/Danceric/*" />
       <exclude name="library/Imind/*" />
+      <exclude name="library/HTMLPurifier.php" />
+      <exclude name="library/HTMLPurifier/*" />
     </fileset>
   </coverage-setup>
   <phpunit haltonerror="true" bootstrap="tests/unit/bootstrap.php" codecoverage="true" >
@@ -55,21 +60,26 @@
  <target name="pdepend" description="Generate jdepend.xml and software metrics charts using PHP_Depend">
   <phpdepend>
     <fileset dir="${source}/system">
-      <include name="application/**.php" />
       <include name="forms/**.php" />
       <include name="models/**.php" />
       <include name="library/**.php" />
+      <exclude name="library/Doctrine.php" />
       <exclude name="library/Doctrine/*" />
       <exclude name="library/Zend/*" />
       <exclude name="library/ZendX/*" />
+      <exclude name="library/Danceric/*" />
       <exclude name="library/Kint/*" />
+      <exclude name="library/Kint.php" />
       <exclude name="library/sfEventDispatcher/*" />
       <exclude name="library/sfYaml/*" />
       <exclude name="library/WideImage/*" />
+      <exclude name="library/WideImage.php" />
       <exclude name="library/ZFDebug/*" />
       <exclude name="library/Danceric/*" />
       <exclude name="library/Imind/*" />
-   </fileset>
+      <exclude name="library/HTMLPurifier.php" />
+      <exclude name="library/HTMLPurifier/*" />
+    </fileset>
    <logger type="jdepend-xml" outfile="build/logs/jdepend.xml"/>
    <logger type="jdepend-chart" outfile="build/pdepend/dependencies.svg"/>
    <logger type="overview-pyramid" outfile="build/pdepend/overview-pyramid.svg"/>
@@ -79,21 +89,26 @@
  <target name="phpmd" description="Generate pmd.xml using PHPMD">
   <phpmd rulesets="codesize,design,naming,unusedcode">
     <fileset dir="${source}/system">
-      <include name="application/**.php" />
       <include name="forms/**.php" />
       <include name="models/**.php" />
       <include name="library/**.php" />
+      <exclude name="library/Doctrine.php" />
       <exclude name="library/Doctrine/*" />
       <exclude name="library/Zend/*" />
       <exclude name="library/ZendX/*" />
+      <exclude name="library/Danceric/*" />
       <exclude name="library/Kint/*" />
+      <exclude name="library/Kint.php" />
       <exclude name="library/sfEventDispatcher/*" />
       <exclude name="library/sfYaml/*" />
       <exclude name="library/WideImage/*" />
+      <exclude name="library/WideImage.php" />
       <exclude name="library/ZFDebug/*" />
       <exclude name="library/Danceric/*" />
       <exclude name="library/Imind/*" />
-   </fileset>
+      <exclude name="library/HTMLPurifier.php" />
+      <exclude name="library/HTMLPurifier/*" />
+    </fileset>
     <formatter type="xml" outfile="build/logs/pmd.xml"/>
   </phpmd>
  </target>
@@ -101,21 +116,26 @@
  <target name="phpcpd" description="Generate pmd-cpd.xml using PHPCPD">
   <phpcpd>
     <fileset dir="${source}/system">
-      <include name="application/**.php" />
       <include name="forms/**.php" />
       <include name="models/**.php" />
       <include name="library/**.php" />
+      <exclude name="library/Doctrine.php" />
       <exclude name="library/Doctrine/*" />
       <exclude name="library/Zend/*" />
       <exclude name="library/ZendX/*" />
+      <exclude name="library/Danceric/*" />
       <exclude name="library/Kint/*" />
+      <exclude name="library/Kint.php" />
       <exclude name="library/sfEventDispatcher/*" />
       <exclude name="library/sfYaml/*" />
       <exclude name="library/WideImage/*" />
+      <exclude name="library/WideImage.php" />
       <exclude name="library/ZFDebug/*" />
       <exclude name="library/Danceric/*" />
       <exclude name="library/Imind/*" />
-   </fileset>
+      <exclude name="library/HTMLPurifier.php" />
+      <exclude name="library/HTMLPurifier/*" />
+    </fileset>
     <formatter type="pmd" outfile="build/logs/pmd-cpd.xml"/>
   </phpcpd>
  </target>
@@ -127,21 +147,26 @@
  <target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
   <phpcodesniffer standard="Zend" showWarnings="false">
     <fileset dir="${source}/system">
-      <include name="application/**.php" />
       <include name="forms/**.php" />
       <include name="models/**.php" />
       <include name="library/**.php" />
+      <exclude name="library/Doctrine.php" />
       <exclude name="library/Doctrine/*" />
       <exclude name="library/Zend/*" />
       <exclude name="library/ZendX/*" />
+      <exclude name="library/Danceric/*" />
       <exclude name="library/Kint/*" />
+      <exclude name="library/Kint.php" />
       <exclude name="library/sfEventDispatcher/*" />
       <exclude name="library/sfYaml/*" />
       <exclude name="library/WideImage/*" />
+      <exclude name="library/WideImage.php" />
       <exclude name="library/ZFDebug/*" />
       <exclude name="library/Danceric/*" />
       <exclude name="library/Imind/*" />
-   </fileset>
+      <exclude name="library/HTMLPurifier.php" />
+      <exclude name="library/HTMLPurifier/*" />
+    </fileset>
     <formatter type="checkstyle" outfile="build/logs/checkstyle.xml"/>
   </phpcodesniffer>
  </target>
@@ -149,21 +174,26 @@
  <target name="phpdoc" description="Generate API documentation using PHPDocumentor">
   <phpdoc destdir="build/api" parseprivate="true" output="HTML:Smarty:PHP">
     <fileset dir="${source}/system">
-      <include name="application/**.php" />
       <include name="forms/**.php" />
       <include name="models/**.php" />
       <include name="library/**.php" />
+      <exclude name="library/Doctrine.php" />
       <exclude name="library/Doctrine/*" />
       <exclude name="library/Zend/*" />
       <exclude name="library/ZendX/*" />
+      <exclude name="library/Danceric/*" />
       <exclude name="library/Kint/*" />
+      <exclude name="library/Kint.php" />
       <exclude name="library/sfEventDispatcher/*" />
       <exclude name="library/sfYaml/*" />
       <exclude name="library/WideImage/*" />
+      <exclude name="library/WideImage.php" />
       <exclude name="library/ZFDebug/*" />
       <exclude name="library/Danceric/*" />
       <exclude name="library/Imind/*" />
-   </fileset>
+      <exclude name="library/HTMLPurifier.php" />
+      <exclude name="library/HTMLPurifier/*" />
+    </fileset>
     <projdocfileset dir="${project.basedir}">
       <include name="README" />
       <include name="INSTALL" />
