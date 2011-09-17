@@ -1,0 +1,12 @@
+scripts/jquery/jquery-1.6.4.js
+scripts/jquery/jquery.ui/development-bundle/ui/jquery-ui-1.8.16.custom.js
+scripts/jquery/jquery.metadata.js
+scripts/jquery/superfish/js/hoverIntent.js
+scripts/jquery/jquery.bgiframe-2.1.2.js
+scripts/jquery/superfish/js/superfish.js
+scripts/jquery/superfish/js/supersubs.js
+scripts/jquery/jquery.form.js
+scripts/jquery/jquery-validation/jquery.validate.js
+scripts/jquery/jquery-validation/additional-methods.js
+scripts/jquery/jquery-validate.password/jquery.validate.password.js
+scripts/simplecart.js

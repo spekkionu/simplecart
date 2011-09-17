@@ -16,3 +16,6 @@
 [submodule "src/system/library/Doctrine"]
 	path = src/system/library/Doctrine
 	url = git://github.com/spekkionu/doctrine.git
+[submodule "scripts/tasks/closure"]
+	path = scripts/tasks/closure
+	url = git://github.com/mathewbyrne/closure-task.git

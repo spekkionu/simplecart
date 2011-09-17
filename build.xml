@@ -4,6 +4,11 @@
 <project name="simplecart" default="build" basedir=".">
  <property name="source" value="src"/>
 
+ <!-- Add Custom Tasks to the include path -->
+ <includepath classpath="scripts/tasks/closure/tasks" />
+ <taskdef name="yuicompressor" classname="YuiCompressorTask" />
+ <taskdef name="closure" classname="ClosureTask" />
+
  <target name="clean" description="Clean up and create artifact directories">
   <delete dir="build/api"/>
   <delete dir="build/code-browser"/>
@@ -205,5 +210,39 @@
   <exec command="phpcb --log build/logs --source ${source}/system --output build/code-browser" />
  </target>
 
- <target name="build" depends="clean,pdepend,phpmd,phpcpd,phpcs,phpdoc,phploc,phpunit,phpcb"/>
+  <target name="build" depends="clean,pdepend,phpmd,phpcpd,phpcs,phpdoc,phploc,phpunit,phpcb"/>
+
+  <target name="cssmin" description="Combines and compresses css files">
+    <echo message="Combine CSS Files" />
+    <delete file="${source}/public_html/assets/styles/admin.min.css"/>
+    <delete dir="build/tmp"/>
+    <mkdir dir="build/tmp"/>
+    <append destfile="build/tmp/admin.min.css">
+      <filelist dir="${source}/public_html/assets" listfile="${source}/public_html/assets/styles/admin.txt"/>
+    </append>
+    <echo message="Compress combined css file"/>
+    <yuicompressor target="${source}/public_html/assets/styles" type="css" compressorjar="${project.basedir}/scripts/tasks/yuicompressor/yuicompressor.jar"  verbose="true">
+      <filelist dir="build/tmp" files="admin.min.css"></filelist>
+    </yuicompressor>
+    <delete dir="build/tmp"/>
+  </target>
+
+  <target name="jsmin" description="Combines and compresses javascript files">
+    <echo message="Combine CSS Files" />
+
+    <delete file="${source}/public_html/assets/scripts/admin.min.js"/>
+    <delete dir="build/tmp"/>
+    <mkdir dir="build/tmp"/>
+    <append destfile="build/tmp/admin.min.js">
+      <filelist dir="${source}/public_html/assets" listfile="${source}/public_html/assets/scripts/admin.txt"/>
+    </append>
+    <echo message="Compress combined js file"/>
+    <yuicompressor target="${source}/public_html/assets/scripts" type="js" compressorjar="${project.basedir}/scripts/tasks/yuicompressor/yuicompressor.jar"  verbose="true">
+      <filelist dir="build/tmp" files="admin.min.js"></filelist>
+    </yuicompressor>
+    <delete dir="build/tmp"/>
+  </target>
+
+
+
 </project>

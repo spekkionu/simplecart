@@ -253,9 +253,6 @@ td,th{ padding:3px; }
   background-repeat: no-repeat;
   cursor: help;
 }
-.dijitTooltip{
-  min-width: 300px !important;
-}
 .full-width{ width: 100%;}
 .align-left{ text-align: left;}
 .align-center{ text-align: center;}
@@ -267,7 +264,7 @@ td,th{ padding:3px; }
    ========================================================================== */
 
 .icon{
-  display:inline-block;
+  display:inline-block !important;
   width: 16px;
   height: 16px;
   background-repeat: no-repeat;

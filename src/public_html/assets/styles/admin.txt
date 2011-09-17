@@ -1,0 +1,5 @@
+styles/base.css
+styles/admin.css
+styles/admin-menu.css
+scripts/jquery/jquery.ui/css/cupertino/jquery-ui-1.8.16.custom.css
+scripts/jquery/jquery-validate.password/jquery.validate.password.css
