@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @license MIT http://www.opensource.org/licenses/mit-license.php
+ */
 define( 'KINT_DIR', dirname( __FILE__ ) . DIRECTORY_SEPARATOR.'Kint'.DIRECTORY_SEPARATOR );
 require KINT_DIR . 'config.php';
 
