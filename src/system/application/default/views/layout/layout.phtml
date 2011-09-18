@@ -8,19 +8,15 @@ echo $this->headMeta();
 $this->headTitle('Simplecart')->setSeparator(' - ');
 echo $this->headTitle();
 
-$this->headLink()->appendStylesheet($this->baseUrl('assets/styles/styles.css'), 'screen');
-$this->headLink()->appendStylesheet($this->baseUrl('assets/styles/ie.css'), 'screen', 'lt IE 8');
-echo $this->headLink();
+$this->minifyHeadLink()->appendStylesheet($this->baseUrl('assets/styles/base.css'), 'screen');
+$this->minifyHeadLink()->appendStylesheet($this->baseUrl('assets/styles/styles.css'), 'screen');
+$this->minifyHeadLink()->appendStylesheet($this->baseUrl('assets/styles/ie.css'), 'screen', 'lt IE 8');
+echo $this->minifyHeadLink();
 
 $this->headScript()->appendFile('//html5shim.googlecode.com/svn/trunk/html5.js', 'text/javascript', array('conditional' => 'lt IE 9'));
 echo $this->headScript();
 
-//$this->dojo()->enable();
-//$this->dojo()->setDjConfigOption('parseOnLoad', true);
-//$this->dojo()->setLocalPath($this->baseUrl('assets/scripts/dojo/dojo/dojo.js'));
-//$this->dojo()->addStyleSheetModule('dijit.themes.claro');
-//$this->dojo()->requireModule('dijit.form.Button');
-//echo $this->dojo();
+
 
 
 echo $this->headStyle();

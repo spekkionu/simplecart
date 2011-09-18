@@ -19,3 +19,6 @@
 [submodule "scripts/tasks/closure"]
 	path = scripts/tasks/closure
 	url = git://github.com/mathewbyrne/closure-task.git
+[submodule "src/public_html/assets/min"]
+	path = src/public_html/assets/min
+	url = git://github.com/mrclay/minify.git
