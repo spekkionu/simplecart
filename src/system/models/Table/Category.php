@@ -7,141 +7,141 @@
  */
 class Table_Category extends Doctrine_Table
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object Table_Category
-     */
-    public static function getInstance()
-    {
-        return Doctrine_Core::getTable('Category');
+
+  /**
+   * Returns an instance of this class.
+   *
+   * @return object Table_Category
+   */
+  public static function getInstance() {
+    return Doctrine_Core::getTable('Category');
+  }
+
+  /**
+   * Fetches a single category
+   * @param int $id
+   * @return array
+   */
+  public function getCategory($id) {
+    $category = $this->find($id);
+    $has_children = $category->getNode()->hasChildren();
+    $category = $category->toArray();
+    $category['has_children'] = $has_children;
+    return $category;
+  }
+
+  /**
+   * Returns flat category array pairs
+   * @return array
+   */
+  public function getCategories() {
+    $manager = Doctrine_Manager::getInstance();
+    $manager->registerHydrator('pairs', 'Hydrator_Pairs');
+    $q = Doctrine_Query::create();
+    $q->select('id,name');
+    $q->from('Category');
+    $q->orderBy('lft ASC');
+    $q->setHydrationMode('pairs');
+    return $q->execute();
+  }
+
+  /**
+   * Returns category tree
+   * @return array
+   */
+  public function getCategoryTree() {
+    $manager = Doctrine_Manager::getInstance();
+    $manager->registerHydrator('jstree', 'Hydrator_JsTree');
+    $q = Doctrine_Query::create();
+    $q->select('id,name');
+    $q->from('Category');
+    $q->setHydrationMode('jstree');
+    $treeObject = $this->getTree();
+    $treeObject->setBaseQuery($q);
+    return $treeObject->fetchTree();
+  }
+
+  public function moveCategory($id, $ref, $position) {
+    $treeObject = $this->getTree();
+    $category = $this->find($id);
+    if (!$category) {
+      throw new Exception("Category not found.");
     }
-
-    /**
-     * Fetches a single category
-     * @param int $id
-     * @return array
-     */
-    public function getCategory($id){
-      $category = $this->find($id);
-      $has_children = $category->getNode()->hasChildren();
-      $category = $category->toArray();
-      $category['has_children'] = $has_children;
-      return $category;
+    $ref = $this->find($ref);
+    if (!$ref) {
+      throw new Exception("Reference category not found.");
     }
-
-    /**
-     * Returns flat category array pairs
-     * @return array
-     */
-    public function getCategories(){
-      $manager = Doctrine_Manager::getInstance();
-      $manager->registerHydrator('pairs', 'Hydrator_Pairs');
-      $q = Doctrine_Query::create();
-      $q->select('id,name');
-      $q->from('Category');
-      $q->orderBy('lft ASC');
-      $q->setHydrationMode('pairs');
-      return $q->execute();
+    switch ($position) {
+      case "inside":
+        // Add as First
+        //echo "move {$id} as first child of {$ref->id}";
+        $category->getNode()->moveAsFirstChildOf($ref);
+        return true;
+        break;
+      case "before":
+        //echo "move {$id} as prev sibling of {$ref->id}";
+        $category->getNode()->moveAsPrevSiblingOf($ref);
+        return true;
+        break;
+      case "after":
+        //echo "move {$id} as next sibling of {$ref->id}";
+        $category->getNode()->moveAsNextSiblingOf($ref);
+        return true;
+        break;
+      default:
+        throw new Exception("Invalid movement type.");
+        break;
     }
+    throw new Exception("Could not find new location.");
+  }
 
-
-    /**
-     * Returns category tree
-     * @return array
-     */
-    public function getCategoryTree(){
-      $manager = Doctrine_Manager::getInstance();
-      $manager->registerHydrator('jstree', 'Hydrator_JsTree');
-      $q = Doctrine_Query::create();
-      $q->select('id,name');
-      $q->from('Category');
-      $q->setHydrationMode('jstree');
-      $treeObject = $this->getTree();
-      $treeObject->setBaseQuery($q);
-      return $treeObject->fetchTree();
+  /**
+   * Adds a new category
+   * @param array $data
+   * @return Category
+   */
+  public function addCategory(array $data) {
+    $parent = $this->find($data['parent']);
+    if (!$parent) {
+      throw new Validate_Exception("Invalid parent category.");
     }
+    $category = $this->create();
+    $category->name = $data['name'];
+    $category->path = $data['path'];
+    $category->active = (bool) $data['active'];
+    // Also add route
+    $category->Route->path = $data['path'];
+    $category->Route->type = 'category';
+    $category->Route->active = (bool) $data['active'];
+    $category->getNode()->insertAsLastChildOf($parent);
 
-    public function moveCategory($id, $ref, $position){
-      $treeObject = $this->getTree();
-      $category = $this->find($id);
-      if(!$category){
-        throw new Exception("Category not found.");
-      }
-      $ref = $this->find($ref);
-      if(!$ref){
-        throw new Exception("Reference category not found.");
-      }
-      switch($position){
-        case "inside":
-          // Add as First
-          //echo "move {$id} as first child of {$ref->id}";
-          $category->getNode()->moveAsFirstChildOf($ref);
-          return true;
-          break;
-        case "before":
-          //echo "move {$id} as prev sibling of {$ref->id}";
-          $category->getNode()->moveAsPrevSiblingOf($ref);
-          return true;
-          break;
-        case "after":
-          //echo "move {$id} as next sibling of {$ref->id}";
-          $category->getNode()->moveAsNextSiblingOf($ref);
-          return true;
-          break;
-        default:
-          throw new Exception("Invalid movement type.");
-          break;
-      }
-      throw new Exception("Could not find new location.");
-    }
+    return $category;
+  }
 
-    /**
-     * Adds a new category
-     * @param array $data
-     * @return Category
-     */
-    public function addCategory(array $data){
-      $parent = $this->find($data['parent']);
-      if(!$parent){
-        throw new Validate_Exception("Invalid parent category.");
-      }
-      $category = $this->create();
-      $category->name = $data['name'];
-      $category->path = $data['path'];
-      $category->active = (bool)$data['active'];
-      // Also add route
-      $category->Route->path = $data['path'];
-      $category->Route->type = 'category';
-      $category->Route->active = (bool)$data['active'];
-      $category->getNode()->insertAsLastChildOf($parent);
+  /**
+   * Updates a category
+   * @param Category $category
+   * @param array $data
+   * @return Category
+   */
+  public function updateCategory(Category $category, array $data) {
+    $category->name = $data['name'];
+    $category->path = $data['path'];
+    $category->active = (bool) $data['active'];
+    // Also Update Route
+    $category->Route->path = $data['path'];
+    $category->Route->active = (bool) $data['active'];
+    $category->save();
+    return $category;
+  }
 
-      return $category;
-    }
+  public function deleteCategory(Category $category) {
+    // Save route instance
+    $route = $category->Route;
+    // Delete node, this will bubble to other relations
+    $category->getNode()->delete();
+    // Delete route
+    $route->delete();
+  }
 
-    /**
-     * Updates a category
-     * @param Category $category
-     * @param array $data
-     * @return Category
-     */
-    public function updateCategory(Category $category, array $data){
-      $category->name = $data['name'];
-      $category->path = $data['path'];
-      $category->active = (bool)$data['active'];
-      // Also Update Route
-      $category->Route->path = $data['path'];
-      $category->Route->active = (bool)$data['active'];
-      $category->save();
-      return $category;
-    }
-
-    public function deleteCategory(Category $category){
-      // Save route instance
-      $route = $category->Route;
-      // Delete node, this will bubble to other relations
-      $category->getNode()->delete();
-      // Delete route
-      $route->delete();
-    }
 }

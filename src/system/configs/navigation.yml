@@ -61,6 +61,31 @@
       reset_params: true
       visible: false
 -
+  id: main-menu-product
+  label: Products
+  title: Manage Products
+  route: admin_product
+  module: admin
+  controller: product
+  action: index
+  resource: admin:product
+  privilege: view
+  reset_params: true
+  visible: true
+  pages:
+    -
+      id: main-menu-product-add
+      label: Add Product
+      title: Add new product
+      route: admin_product_add
+      module: admin
+      controller: product
+      action: add
+      resource: admin:product
+      privilege: add
+      reset_params: true
+      visible: true
+-
   id: main-menu-account
   label: My Account
   title: Manage account profile

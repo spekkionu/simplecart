@@ -18,11 +18,10 @@ class Admin extends Base_Admin
    * @param string $password
    * @return Admin
    */
-  public function setPassword($password){
+  public function setPassword($password) {
     $this->_set('password', self::encryptPassword($password));
     return $this;
   }
-
 
   /**
    * Encrypts and sets PIN number
@@ -33,7 +32,6 @@ class Admin extends Base_Admin
     $this->_set('password_key', self::encryptPin($pin));
     return $this;
   }
-
 
   /**
    * Encrypts and sets token
@@ -50,7 +48,7 @@ class Admin extends Base_Admin
    * @param string $password
    * @return string
    */
-  public static function encryptPassword($password){
+  public static function encryptPassword($password) {
     $crypt_key = 'gitybTYJgfdbRTYHFDBhgjkrfdgRTYUJGFDMrtgrtujhgmrtGRTJU';
     return self::encrypt($password, $crypt_key);
   }
@@ -60,7 +58,7 @@ class Admin extends Base_Admin
    * @param string $token
    * @return string
    */
-  public static function encryptToken($token){
+  public static function encryptToken($token) {
     $crypt_key = 'fdGGFHNhjfgRTYNBfdgrehfBGRGJfdghJHFDBjJTYJd';
     return self::encrypt($token, $crypt_key);
   }
@@ -70,7 +68,7 @@ class Admin extends Base_Admin
    * @param string $pin
    * @return string
    */
-  public static function encryptPin($pin){
+  public static function encryptPin($pin) {
     $crypt_key = 'fhgrgfhFHGrtgfdHRTEGGFDJHRTHfdnhtyHREGh';
     return self::encrypt($pin, $crypt_key);
   }
@@ -81,8 +79,8 @@ class Admin extends Base_Admin
    * @param string $crypt_key
    * @return string
    */
-  private static function encrypt($value, $crypt_key){
-    return hash('sha512', $value.$crypt_key);
+  private static function encrypt($value, $crypt_key) {
+    return hash('sha512', $value . $crypt_key);
   }
 
 }

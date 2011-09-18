@@ -7,40 +7,49 @@ echo $this->headMeta();
 
 $this->headTitle($this->site_info['name'].' Administration', 'PREPEND')->setSeparator(' - ');
 echo $this->headTitle();
+
+// CSS Files
+//$this->headLink()->appendStylesheet($this->baseUrl('assets/styles/admin.min.css'), 'screen');
 $this->headLink()->appendStylesheet($this->baseUrl('assets/styles/base.css'), 'screen');
 $this->headLink()->appendStylesheet($this->baseUrl('assets/styles/admin.css'), 'screen');
 $this->headLink()->appendStylesheet($this->baseUrl('assets/styles/admin-menu.css'), 'screen');
+$this->headLink()->appendStylesheet($this->baseUrl('assets/scripts/jquery/jquery.ui/css/cupertino/jquery-ui-1.8.16.custom.css'));
+$this->headLink()->appendStylesheet($this->baseUrl('assets/scripts/jquery/jquery-validate.password/jquery.validate.password.css'));
+
 $this->headLink()->appendStylesheet($this->baseUrl('assets/styles/ie.css'), 'screen', 'lt IE 8');
 echo $this->headLink();
 
+// Javascript Files
 $this->headScript()->appendFile($this->baseUrl('assets/scripts/html5.js'), 'text/javascript', array('conditional' => 'lt IE 9'));
+
+//$this->headScript()->appendFile($this->baseUrl('assets/scripts/admin.min.js'), 'text/javascript');
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/jquery/jquery-1.6.4.min.js'));
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/jquery/jquery.ui/js/jquery-ui-1.8.16.custom.min.js'));
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/jquery/jquery.metadata.js'));
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/jquery/superfish/js/hoverIntent.js'));
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/jquery/jquery.bgiframe-2.1.2.js'));
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/jquery/superfish/js/superfish.js'));
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/jquery/superfish/js/supersubs.js'));
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/jquery/jquery.form.js'));
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/jquery/jquery-validation/jquery.validate.min.js'));
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/jquery/jquery-validation/additional-methods.min.js'));
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/jquery/jquery-validate.password/jquery.validate.password.js'));
+$this->headScript()->appendFile($this->baseUrl('assets/scripts/simplecart.js'));
 echo $this->headScript();
 
+// jQuery Plugins
 $this->jQuery()->enable()->uiEnable();
-$this->jQuery()->setLocalPath($this->baseUrl('assets/scripts/jquery/jquery-1.6.2.min.js'));
+$this->jQuery()->setRenderMode(ZendX_JQuery::RENDER_ALL ^ ZendX_JQuery::RENDER_LIBRARY);
+$this->jQuery()->setLocalPath($this->baseUrl('assets/scripts/jquery/jquery-1.6.4.min.js'));
 $this->jQuery()->setUiLocalPath($this->baseUrl('assets/scripts/jquery/jquery.ui/js/jquery-ui-1.8.16.custom.min.js'));
-
-$this->jQuery()->addStylesheet($this->baseUrl('assets/scripts/jquery/jquery.ui/css/cupertino/jquery-ui-1.8.16.custom.css'));
-$this->jQuery()->addStylesheet($this->baseUrl('assets/scripts/jquery/jquery-validate.password/jquery.validate.password.css'));
-
-$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jquery.metadata.js'));
-$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/superfish/js/hoverIntent.js'));
-$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jquery.bgiframe-2.1.2.js'));
-$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/superfish/js/superfish.js'));
-$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/superfish/js/supersubs.js'));
-$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jquery.form.js'));
-$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jquery-validation/jquery.validate.min.js'));
-$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jquery-validation/additional-methods.min.js'));
-$this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jquery-validate.password/jquery.validate.password.js'));
 
 echo $this->jQuery();
 
 echo $this->headStyle();
 ?>
-<script type="text/javascript" src="<?php echo $this->baseUrl('assets/scripts/simplecart.js');?>"></script>
 <?php echo $this->placeholder('headExtra'); ?>
 </head>
-<body class="claro">
+<body>
   <header class="main-header">
     <h1 class="site-title"><?php echo $this->escape($this->site_info['name']);?> Administration</h1>
     <?php if(Zend_Auth::getInstance()->hasIdentity()):?>

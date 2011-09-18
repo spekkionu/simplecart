@@ -1,18 +1,26 @@
 <?php
+/**
+ * Generic delete form
+ * 
+ * Used for all deletes
+ *
+ * @package Simplecart
+ * @subpackage Form
+ * @author spekkionu
+ */
+class Form_Delete extends SimpleCart_Form
+{
 
-class Form_Delete extends SimpleCart_Form {
-
-  public function loadDefaultDecorators(){
+  public function loadDefaultDecorators() {
     $this->setDecorators(array(
       'FormElements',
-      array('Description', array('tag'=>'p','class'=>'form-help')),
+      array('Description', array('tag' => 'p', 'class' => 'form-help')),
       array('Fieldset', array()),
-      array('Form', array('id'=>'form-category','class'=>'validate', 'accept-charset'=>'utf-8'))
-
+      array('Form', array('id' => 'form-category', 'class' => 'validate', 'accept-charset' => 'utf-8'))
     ));
   }
 
-  public function init(){
+  public function init() {
     parent::init();
 
     $element = new Zend_Form_Element_Submit('submit');
@@ -22,7 +30,7 @@ class Form_Delete extends SimpleCart_Form {
     $element->setAttrib('class', 'ui-button ui-widget ui-state-default ui-corner-all');
     $this->addElement($element);
 
-    $this->addElement('hash', 'csrf', array('ignore' => true, 'decorators'=>$this->hidden));
-
+    $this->addElement('hash', 'csrf', array('ignore' => true, 'decorators' => $this->hidden));
   }
+
 }

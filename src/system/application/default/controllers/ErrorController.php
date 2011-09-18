@@ -1,6 +1,15 @@
 <?php
 
-class ErrorController extends SimpleCart_FrontController {
+/**
+ * Error controller
+ *
+ * @package Simplecart
+ * @subpackage Controller
+ * @author spekkionu
+ */
+class ErrorController extends SimpleCart_FrontController
+{
+
   public function errorAction() {
     $errors = $this->_getParam('error_handler');
 
@@ -16,7 +25,8 @@ class ErrorController extends SimpleCart_FrontController {
     }
   }
 
-  public function notFoundAction(){
+  public function notFoundAction() {
     $this->getResponse()->setRawHeader('HTTP/1.1 404 Not Found');
   }
+
 }

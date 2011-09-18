@@ -47,7 +47,7 @@
       <exclude name="library/HTMLPurifier/*" />
     </fileset>
   </coverage-setup>
-  <phpunit haltonerror="true" bootstrap="tests/unit/bootstrap.php" codecoverage="true" >
+  <phpunit haltonerror="false" bootstrap="tests/unit/bootstrap.php" codecoverage="true" >
     <formatter type="clover" todir="build/logs" outfile="clover.xml"></formatter>
     <formatter type="xml" todir="build/logs" outfile="junit.xml"></formatter>
     <batchtest>
@@ -150,7 +150,7 @@
  </target>
 
  <target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
-  <phpcodesniffer standard="Zend" showWarnings="false">
+  <phpcodesniffer standard="spekkionu" showWarnings="false">
     <fileset dir="${source}/system">
       <include name="forms/**.php" />
       <include name="models/**.php" />
@@ -172,12 +172,13 @@
       <exclude name="library/HTMLPurifier.php" />
       <exclude name="library/HTMLPurifier/*" />
     </fileset>
+    <formatter type="default" usefile="false"/>
     <formatter type="checkstyle" outfile="build/logs/checkstyle.xml"/>
   </phpcodesniffer>
  </target>
 
  <target name="phpdoc" description="Generate API documentation using PHPDocumentor">
-  <phpdoc destdir="build/api" parseprivate="true" output="HTML:Smarty:PHP">
+  <phpdoc destdir="build/api" parseprivate="false" output="HTML:Smarty:PHP">
     <fileset dir="${source}/system">
       <include name="forms/**.php" />
       <include name="models/**.php" />
@@ -210,7 +211,7 @@
   <exec command="phpcb --log build/logs --source ${source}/system --output build/code-browser" />
  </target>
 
-  <target name="build" depends="clean,pdepend,phpmd,phpcpd,phpcs,phpdoc,phploc,phpunit,phpcb"/>
+  <target name="build" depends="clean,phpunit,pdepend,phpmd,phpcpd,phpcs,phpdoc,phploc,phpcb"/>
 
   <target name="cssmin" description="Combines and compresses css files">
     <echo message="Combine CSS Files" />

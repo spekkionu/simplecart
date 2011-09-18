@@ -12,11 +12,11 @@ set_include_path(
   get_include_path()
 );
 
-require(SYSTEM.'/library/sfYaml/sfYaml.php' );
-require(SYSTEM.'/library/Doctrine.php' );
+require_once(SYSTEM.'/library/sfYaml/sfYaml.php' );
+require_once(SYSTEM.'/library/Doctrine.php' );
 
 // Set up autoload.
-require( SYSTEM.'/library/Zend/Loader/Autoloader.php' );
+require_once( SYSTEM.'/library/Zend/Loader/Autoloader.php' );
 $autoloader = Zend_Loader_Autoloader::getInstance();
 $autoloader->registerNamespace('Doctrine')->pushAutoloader(array('Doctrine', 'autoload'), 'Doctrine');
 $autoloader->pushAutoloader(array('Doctrine', 'modelsAutoload'));
@@ -74,7 +74,7 @@ if($config->mail->type == 'smtp'){
 }
 
 // Setup Email Template class
-require(SYSTEM.'/models/EmailTemplates.php');
+require_once(SYSTEM.'/models/EmailTemplates.php');
 EmailTemplates::setConfig($config->mail);
 EmailTemplates::setTemplateDir(SYSTEM.'/configs/emails');
 

@@ -11,11 +11,11 @@ set_include_path(
   SYSTEM . DIRECTORY_SEPARATOR.'library'
 );
 
-require(SYSTEM.'/library/sfYaml/sfYaml.php' );
-require(SYSTEM.'/library/Doctrine.php' );
+require_once(SYSTEM.'/library/sfYaml/sfYaml.php' );
+require_once(SYSTEM.'/library/Doctrine.php' );
 
 // Set up autoload.
-require( 'Zend/Loader/Autoloader.php' );
+require_once( 'Zend/Loader/Autoloader.php' );
 $autoloader = Zend_Loader_Autoloader::getInstance();
 $autoloader->registerNamespace('Doctrine')->pushAutoloader(array('Doctrine', 'autoload'), 'Doctrine');
 $autoloader->pushAutoloader(array('Doctrine', 'modelsAutoload'));

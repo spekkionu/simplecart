@@ -1,16 +1,24 @@
 <?php
-class Zend_View_Helper_Pagination extends Zend_View_Helper_Abstract{
-  
-  
+
+/**
+ * Pagination View Helper
+ *
+ * @package Simplecart
+ * @subpackage View_Helper
+ * @author spekkionu
+ */
+class Zend_View_Helper_Pagination extends Zend_View_Helper_Abstract
+{
+
   /**
-   * Returns a url to be used to link to a module/controller/action.
-   *  Uses The standard url helper but defaults to reset true.
+   * Renders pagination
    *
-   * @param Zend_Paginator $data Instance of Zend_Paginator
+   * @param Zend_Paginator $pager Instance of Zend_Paginator
    * @param array $params An array with key=>value to use as the url parameters
-     * @return string Url for the link href attribute.
+   * @return string Pagination control
    */
-  function pagination(Zend_Paginator $data, $params = array()){
-    return $this->view->paginationControl($data, null, null, array('params'=>$params));
+  function pagination(Zend_Paginator $pager, $params = array()) {
+    return $this->view->paginationControl($pager, null, null, array('params' => $params));
   }
+
 }

@@ -1,10 +1,18 @@
 <?php
 
-class Admin_SettingsController extends SimpleCart_AdminController {
+/**
+ * Manage settings
+ *
+ * @package Simplecart
+ * @subpackage AdminController
+ * @author spekkionu
+ */
+class Admin_SettingsController extends SimpleCart_AdminController
+{
 
-  public function init(){
+  public function init() {
     parent::init();
-    if(!$this->isAllowed('admin', 'general')){
+    if (!$this->isAllowed('admin', 'general')) {
       // Save current url for later
       $session = new Zend_Session_Namespace();
       $session->login_destination = $this->view->url();
@@ -12,7 +20,8 @@ class Admin_SettingsController extends SimpleCart_AdminController {
     }
   }
 
-  public function indexAction(){
+  public function indexAction() {
 
   }
+
 }

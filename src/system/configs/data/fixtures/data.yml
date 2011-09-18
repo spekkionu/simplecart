@@ -21,6 +21,14 @@ Route:
     path: catalog/category-2/category-3
     type: category
     active: true
+  Route_4:
+    path: product/product-1
+    type: product
+    active: true
+  Route_5:
+    path: product/product-2
+    type: product
+    active: true
 
 Category:
   NestedSet: true
@@ -44,3 +52,24 @@ Category:
             path: catalog/category-2/category-3
             active: true
             Route: Route_3
+Product:
+  product_1:
+    sku: product-1
+    name: Product 1
+    active: true
+    price: 5.99
+    description: Product Description
+    weight: 2
+    path: product/product-1
+    Route: Route_4
+    Categories: [Category_1]
+  product_2:
+    sku: product-2
+    name: Product 2
+    active: true
+    price: 10.99
+    description: Product Description
+    weight: 3
+    path: product/product-2
+    Route: Route_5
+    Categories: [Category_2,Category_3]

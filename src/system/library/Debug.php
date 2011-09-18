@@ -1,6 +1,12 @@
 <?php
 
-class Debug {
+/**
+ * Zebugging functions
+ *
+ * @package Simplecart
+ */
+class Debug
+{
 
   /**
    * Dumps data as html
@@ -9,9 +15,9 @@ class Debug {
    * @return void
    */
   public static function dump($var, $label=null) {
-    if($label){
+    if ($label) {
       Kint::dump($label, $var);
-    }else{
+    } else {
       Kint::dump($var);
     }
   }
@@ -23,15 +29,16 @@ class Debug {
    * @param boolean $echo
    * @return string
    */
-  public static function zend($var, $label=null, $echo = TRUE){
-      return Zend_Debug::dump($var, $label, $echo);
+  public static function zend($var, $label=null, $echo = TRUE) {
+    return Zend_Debug::dump($var, $label, $echo);
   }
 
   /**
    * Dump a trace
    * @return void
    */
-  public static function trace(){
+  public static function trace() {
     Kint::trace();
   }
+
 }
