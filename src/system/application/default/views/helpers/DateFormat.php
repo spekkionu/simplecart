@@ -5,6 +5,7 @@
  *
  * @package Simplecart
  * @subpackage View_Helper
+ * @license New BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class Zend_View_Helper_DateFormat
 {

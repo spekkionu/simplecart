@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * Front controller base class
+ *
+ * @package    Simplecart
+ * @subpackage Controller
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
+ */
 abstract class SimpleCart_FrontController extends SimpleCart_Controller {
 
   /**

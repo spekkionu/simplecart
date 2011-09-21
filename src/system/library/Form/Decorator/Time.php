@@ -1,7 +1,15 @@
 <?php
+/**
+ * Form decorator for time to be inserted by select inputs for hours, mintutes, am/pm
+ *
+ * @package    Simplecart
+ * @subpackage Zend_Form_Decorator
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
+ */
 class Decorator_Time extends Zend_Form_Decorator_Abstract {
 
-          
+
   public function buildInput() {
 
     $element = $this->getElement();

@@ -10,6 +10,7 @@
  * @uses Zend_Mail
  * @uses Zend_View
  * @uses Zend_Layout
+ * @license New BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class EmailTemplates
 {

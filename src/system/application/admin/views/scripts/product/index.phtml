@@ -1,2 +1,138 @@
-<?php $this->headTitle();?>
-<?php $this->pageHeader = ''; ?>
+<?php $this->headTitle('Manage Products');?>
+<?php $this->pageHeader = 'Manage Products'; ?>
+
+<?php $this->jQuery()->addJavascriptFile($this->baseUrl('assets/scripts/jquery/jstree/jquery.jstree.js')); ?>
+<?php $this->jQuery()->addStylesheet($this->baseUrl('assets/scripts/jquery/jstree/themes/default/style.css')); ?>
+
+<script type="text/javascript">
+$(function() {
+  $(".category-tree").jstree({
+    plugins : [ "themes", "json_data", "ui" ],
+    ui: {
+      select_limit: 1,
+      initially_select: [ "jstree-node-<?php echo $this->escape($this->form->getElement('category')->getValue());?>" ]
+    },
+    json_data: { data: <?php echo Zend_Json::encode($this->categories);?> }
+  })
+  .bind("select_node.jstree", function(e, data){
+    var selected = data.inst.get_selected();
+    if(selected){
+      var id = $(selected).data('id');
+      $('#category').val(id);
+    }else{
+      $('#category').val('');
+    }
+  })
+  .bind("deselect_node.jstree", function(e, data){
+    var selected = data.inst.get_selected();
+    if(selected){
+      var id = $(selected).data('id');
+      $('#category').val(id);
+    }else{
+      $('#category').val('');
+    }
+  });
+});
+</script>
+
+
+<?php echo $this->form; ?>
+
+<table class="data-table full-width border">
+  <thead>
+    <tr>
+      <th>
+        <?php if($this->sort == 'id' && $this->dir == 'asc'):?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'id','page'=>null,'dir'=>'desc'), false);?>">
+            ProductID <span class="ui-icon icon ui-icon-triangle-1-s">&darr;</span>
+          </a>
+        <?php elseif($this->sort == 'id'):?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'id','page'=>null,'dir'=>'asc'), false);?>">
+            ProductID <span class="ui-icon icon ui-icon-triangle-1-n">&uarr;</span>
+          </a>
+        <?php else:?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'id','page'=>null,'dir'=>'asc'), false);?>">
+            ProductID
+          </a>
+        <?php endif;?>
+      </th>
+      <th>
+        <?php if($this->sort == 'sku' && $this->dir == 'asc'):?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'sku','page'=>null,'dir'=>'desc'), false);?>">
+            Sku <span class="ui-icon icon ui-icon-triangle-1-s">&darr;</span>
+          </a>
+        <?php elseif($this->sort == 'sku'):?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'sku','page'=>null,'dir'=>'asc'), false);?>">
+            Sku <span class="ui-icon icon ui-icon-triangle-1-n">&uarr;</span>
+          </a>
+        <?php else:?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'sku','page'=>null,'dir'=>'asc'), false);?>">
+            Sku
+          </a>
+        <?php endif;?>
+      </th>
+      <th>
+        <?php if($this->sort == 'name' && $this->dir == 'asc'):?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'name','page'=>null,'dir'=>'desc'), false);?>">
+            Product Name <span class="ui-icon icon ui-icon-triangle-1-s">&darr;</span>
+          </a>
+        <?php elseif($this->sort == 'name'):?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'name','page'=>null,'dir'=>'asc'), false);?>">
+            Product Name <span class="ui-icon icon ui-icon-triangle-1-n">&uarr;</span>
+          </a>
+        <?php else:?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'name','page'=>null,'dir'=>'asc'), false);?>">
+            Product Name
+          </a>
+        <?php endif;?>
+      </th>
+      <th>
+        <?php if($this->sort == 'price' && $this->dir == 'asc'):?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'price','page'=>null,'dir'=>'desc'), false);?>">
+            Price <span class="ui-icon icon ui-icon-triangle-1-s">&darr;</span>
+          </a>
+        <?php elseif($this->sort == 'price'):?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'price','page'=>null,'dir'=>'asc'), false);?>">
+            Price <span class="ui-icon icon ui-icon-triangle-1-n">&uarr;</span>
+          </a>
+        <?php else:?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'price','page'=>null,'dir'=>'asc'), false);?>">
+            Price
+          </a>
+        <?php endif;?>
+      </th>
+      <th>
+        <?php if($this->sort == 'active' && $this->dir == 'asc'):?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'active','page'=>null,'dir'=>'desc'), false);?>">
+            Active <span class="ui-icon icon ui-icon-triangle-1-s">&darr;</span>
+          </a>
+        <?php elseif($this->sort == 'active'):?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'active','page'=>null,'dir'=>'asc'), false);?>">
+            Active <span class="ui-icon icon ui-icon-triangle-1-n">&uarr;</span>
+          </a>
+        <?php else:?>
+          <a href="<?php echo $this->route('admin_product', array('sort'=>'active','page'=>null,'dir'=>'asc'), false);?>">
+            Active
+          </a>
+        <?php endif;?>
+      </th>
+      <th>
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->results as $index=>$product):?>
+    <tr class="<?php echo $this->cycle(array('odd','even'))->next();?>">
+      <td class="align-center"><?php echo $this->escape($product['id']);?></td>
+      <td class="align-left"><?php echo $this->escape($product['sku']);?></td>
+      <td class="align-left"><?php echo $this->escape($product['name']);?></td>
+      <td class="align-right"><?php echo $this->escape($product['price']);?></td>
+      <td class="align-center"><?php echo $this->escape($product['active']);?></td>
+      <td class="align-center nowrap">edit delete</td>
+    </tr>
+    <?php endforeach;?>
+  </tbody>
+</table>
+
+<?php echo $this->pagination($this->results);?>

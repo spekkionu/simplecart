@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * Base controller class
+ *
+ * @package    Simplecart
+ * @subpackage Controller
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
+ */
 abstract class SimpleCart_Controller extends Zend_Controller_Action {
 
   /**

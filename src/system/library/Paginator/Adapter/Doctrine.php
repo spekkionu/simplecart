@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * Doctrine_Query adaptor for Zend_Paginator
+ *
+ * @package    Simplecart
+ * @subpackage Zend_Paginator_Adapter
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
+ */
 class Paginator_Adapter_Doctrine implements Zend_Paginator_Adapter_Interface {
 
   /**

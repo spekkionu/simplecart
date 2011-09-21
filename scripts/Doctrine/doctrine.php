@@ -14,9 +14,9 @@ $config = array(
         'generateTableClasses' => true,
         'baseClassPrefix' => 'Base_',
         'baseClassesDirectory' => null,
-        'phpDocPackage' => 'SimpleCart',
-        'phpDocSubpackage' => 'Models',
-        'phpDocName' => 'Jonathan Bernardi',
+        'phpDocPackage' => 'Simplecart',
+        'phpDocSubpackage' => 'Model',
+        'phpDocName' => 'spekkionu',
         'phpDocEmail' => 'spekkionu@gmail.com'
     )
 );

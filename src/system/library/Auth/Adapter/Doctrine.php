@@ -6,8 +6,9 @@
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage Zend_Auth_Adapter
- * @author Jonathan Bernardi <spekkionu@spekkionu.com>
- * @version 2.0 08/20/2011
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
+ * @author     spekkionu <spekkionu@gmail.com>
+ * @version    2.0 08/20/2011
  *
  */
 class Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface {
@@ -75,19 +76,19 @@ class Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface {
    *@return void
    */
   public function __construct($tableName = null, $identityColumn = null, $credentialColumn = null) {
-    
+
     if(null !== $tableName) {
       $this->setTableName($tableName);
     }
-    
+
     if(null !== $identityColumn) {
       $this->setIdentityColumn($identityColumn);
     }
-    
+
     if(null !== $credentialColumn) {
       $this->setCredentialColumn($credentialColumn);
     }
-    
+
     $this->createQuery();
   }
 
@@ -152,7 +153,7 @@ class Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface {
    */
   protected function _authenticateSetup() {
     $exception = null;
-    
+
     if($this->_tableName == '') {
       $exception = 'A table must be supplied for the Auth_Doctrine authentication adapter.';
     } elseif($this->_identityColumn == '') {
@@ -167,18 +168,18 @@ class Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface {
     if(is_null($this->_query)) {
       $this->createQuery();
     }
-    
+
     if(null !== $exception) {
       /**
        * @see Zend_Auth_Adapter_Exception
        */
       throw new Zend_Auth_Adapter_Exception($exception);
     }
-    
+
     $this->_authenticateResultInfo = array(
       'code' => Zend_Auth_Result::FAILURE, 'identity' => $this->_identity, 'messages' => array()
     );
-    
+
     return true;
   }
 
@@ -248,11 +249,11 @@ class Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface {
     if(!$this->_resultRow) {
       return false;
     }
-    
+
     $returnObject = new stdClass();
-    
+
     if(null !== $returnColumns) {
-      
+
       $availableColumns = array_keys($this->_resultRow);
       foreach ((array) $returnColumns as $returnColumn) {
         if(in_array($returnColumn, $availableColumns)) {
@@ -260,9 +261,9 @@ class Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface {
         }
       }
       return $returnObject;
-    
+
     } elseif(null !== $omitColumns) {
-      
+
       $omitColumns = (array) $omitColumns;
       foreach ($this->_resultRow as $resultColumn => $resultValue) {
         if(!in_array($resultColumn, $omitColumns)) {
@@ -270,14 +271,14 @@ class Auth_Adapter_Doctrine implements Zend_Auth_Adapter_Interface {
         }
       }
       return $returnObject;
-    
+
     } else {
-      
+
       foreach ($this->_resultRow as $resultColumn => $resultValue) {
         $returnObject->{$resultColumn} = $resultValue;
       }
       return $returnObject;
-    
+
     }
   }
 }

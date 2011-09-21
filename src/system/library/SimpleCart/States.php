@@ -1,18 +1,18 @@
 <?php
 /**
  * States Options Class
- * @author Jonathan Bernardi
- * @copyright 2009 spekkionu <spekkionu@spekkionu.com>
- * @package Options
- * @uses SimpleXML
- * @license MIT License
+ *
+ * @package    Simplecart
+ * @subpackage Form
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class SimpleCart_States {
-	
+
 	private static $file = null;
-	
+
 	private static $states = null;
-	
+
 	/**
 	 * Constructor is static for a static class
 	 * @return unknown_type
@@ -29,7 +29,7 @@ class SimpleCart_States {
 		self::$file = realpath($file);
 		self::$states = null;
 	}
-	
+
 	/**
 	 * Loads the states from the xml file.
 	 * @return void
@@ -53,7 +53,7 @@ class SimpleCart_States {
 	  // Clear xml instance
 	  unset($xml, $states, $state);
 	}
-	
+
 	/**
 	 * Clears the states from the cache.
 	 * @return void
@@ -61,7 +61,7 @@ class SimpleCart_States {
 	public static function clearCache(){
 		self::$states = null;
 	}
-	
+
 	/**
 	 * Returns array of states
 	 * @param bool $us_only
@@ -76,7 +76,7 @@ class SimpleCart_States {
 		}
 		return $states;
 	}
-	
+
 	/**
 	 * Returns states as key=>value pair array
 	 * @param bool $us_only
@@ -93,7 +93,7 @@ class SimpleCart_States {
     }
     return $states;
 	}
-	
+
 	/**
 	 * Returns a single state by abbreviation
 	 * @param string $state
@@ -109,5 +109,5 @@ class SimpleCart_States {
     	return false;
     }
 	}
-	
+
 }

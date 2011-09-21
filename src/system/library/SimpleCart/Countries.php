@@ -1,17 +1,18 @@
 <?php
 /**
  * Countries Options Class
- * @author Jonathan Bernardi
- * @copyright 2009 spekkionu <spekkionu@spekkionu.com>
- * @package Options
- * @license MIT License
+ * 
+ * @package    Simplecart
+ * @subpackage Model
+ * @author     spekkionu
+ * @license New BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class SimpleCart_Countries {
 
   private static $file = null;
-  
+
   private static $countries = null;
-  
+
   /**
    * Constructor is static for a static class
    */
@@ -27,7 +28,7 @@ class SimpleCart_Countries {
     self::$file = realpath($file);
     self::$countries = null;
   }
-  
+
   /**
    * Loads the countries from the xml file.
    * @return void
@@ -50,7 +51,7 @@ class SimpleCart_Countries {
     // Clear xml instance
     unset($xml, $countries, $country);
   }
-  
+
   /**
    * Returns array of countries
    * @return array
@@ -60,7 +61,7 @@ class SimpleCart_Countries {
     if(is_null(self::$countries)) self::loadCountries();
     return self::$countries;
   }
-  
+
   /**
    * Returns countries as abbreviation=>name pair array
    * @return array
@@ -74,7 +75,7 @@ class SimpleCart_Countries {
     }
     return $countries;
   }
-  
+
   /**
    * Returns a single country by abbreviation
    * @param string $country
@@ -90,5 +91,5 @@ class SimpleCart_Countries {
       return false;
     }
   }
-  
+
 }

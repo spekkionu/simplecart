@@ -2,26 +2,26 @@
 
 /**
  * Encryption Class
- * @author Jonathan Bernardi
- * @copyright 2009 spekkionu <spekkionu@spekkionu.com>
- * @uses mcrypt extension
- * @package Crypt
- * @license MIT License
+ *
+ * @package    Simplecart
+ * @subpackage Model
+ * @author     spekkionu
+ * @license New BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class SimpleCart_Crypt {
-	
+
 	/**
 	 * Encryption key
 	 * @var string $_key
 	 */
 	private $_key;
-	
+
 	/**
    * Encryption algorithm, defaults to MCRYPT_BLOWFISH
    * @var string $_algorithm
    */
 	private $_algorithm;
-	
+
 	/**
 	 * Class constructor, sets encryption key and algorithm
 	 * @param string $key The Encryption key to use.
@@ -33,7 +33,7 @@ class SimpleCart_Crypt {
 		$this->setAlgorithm($algorithm);
 		$this->setKey($key);
 	}
-	
+
 	/**
 	 * Sets the encryption key.
 	 * @param $key
@@ -43,7 +43,7 @@ class SimpleCart_Crypt {
 		$this->_key = $key;
 		return $this;
 	}
-	
+
 	/**
 	 * Returns the correct size key for the algorithm
 	 * @return string
@@ -54,7 +54,7 @@ class SimpleCart_Crypt {
     $key = substr($key, 0, $key_size);
     return $key;
 	}
-	
+
 	/**
 	 * Generates a random IV
 	 * @return string
@@ -64,7 +64,7 @@ class SimpleCart_Crypt {
     $iv_size = mcrypt_get_iv_size($this->_algorithm, MCRYPT_MODE_ECB);
     return mcrypt_create_iv($iv_size, MCRYPT_RAND);
 	}
-	
+
 	/**
 	 *
 	 * @param $algorithm
@@ -76,7 +76,7 @@ class SimpleCart_Crypt {
     $this->_algorithm = $algorithm;
     return $this;
 	}
-	
+
 	/**
 	 * Encrypts data
 	 * @param mixed $data
@@ -90,7 +90,7 @@ class SimpleCart_Crypt {
     // Encode and trim it
     return trim(base64_encode($data));
 	}
-	
+
 	/**
 	 * Decrypts data
 	 * @param string $data

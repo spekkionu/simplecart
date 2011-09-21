@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * Hydrates nestedset for jsTree
+ *
+ * @package    Simplecart
+ * @subpackage Doctrine_Hydrator
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
+ */
 class Hydrator_JsTree extends Doctrine_Hydrator_ArrayDriver {
 
   public function hydrateResultSet($stmt) {

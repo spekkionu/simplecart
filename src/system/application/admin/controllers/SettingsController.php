@@ -6,6 +6,7 @@
  * @package Simplecart
  * @subpackage AdminController
  * @author spekkionu
+ * @license New BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class Admin_SettingsController extends SimpleCart_AdminController
 {

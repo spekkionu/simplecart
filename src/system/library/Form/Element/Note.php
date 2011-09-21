@@ -3,14 +3,11 @@
 /**
  * Form note element
  *
- * @author Ruslan Zavackiy <ruslan.zavackiy@gmail.com>
- * @package elements
+ * @package    Simplecart
+ * @subpackage Zend_Form_Element
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
  */
-
-/**
- * Loads helper Zend_View_Helper_FormNote
- */
-
 class Form_Element_Note extends Zend_Form_Element_Xhtml
 {
     public $helper = 'formNote';

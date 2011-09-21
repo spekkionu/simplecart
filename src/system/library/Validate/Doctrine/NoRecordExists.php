@@ -3,9 +3,10 @@
 /**
  * Confirms a record does not exist in a table.
  *
- * @category   Zend
- * @package    Zend_Validate
- * @uses       Validate_Doctrine_Abstract
+ * @package    Simplecart
+ * @subpackage Validate
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class Validate_Doctrine_NoRecordExists extends Validate_Doctrine_Abstract
 {

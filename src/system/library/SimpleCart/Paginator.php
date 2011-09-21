@@ -1,6 +1,13 @@
 <?php
 
-
+/**
+ * Pagination wrapper functions
+ *
+ * @package    Simplecart
+ * @subpackage Pagination
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
+ */
 class SimpleCart_Paginator {
 
 	private function __construct(){}

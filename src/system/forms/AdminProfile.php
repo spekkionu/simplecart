@@ -3,9 +3,10 @@
 /**
  * Admin profile form.
  *
- * @package Simplecart
+ * @package    Simplecart
  * @subpackage Form
- * @cheese ggg
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class Form_AdminProfile extends SimpleCart_Form
 {

@@ -1,12 +1,13 @@
 <?php
 /**
  * Login form.
- * 
+ *
  * Used in both admin and front end
  *
- * @package Simplecart
+ * @package    Simplecart
  * @subpackage Form
- * @author spekkionu
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class Form_Login extends SimpleCart_Form
 {

@@ -6,6 +6,7 @@
  * @package Simplecart
  * @subpackage View_Helper
  * @author spekkionu
+ * @license New BSD http://www.opensource.org/licenses/bsd-license.php
  */
 class Zend_View_Helper_HasAccess extends Zend_View_Helper_Abstract
 {

@@ -3,10 +3,9 @@
 /**
  * Class for Doctrine Database record validation
  *
- * @category   Zend
- * @package    Zend_Validate
- * @uses       Zend_Validate_Abstract
- * @uses       Doctrine_Query
+ * @package    Simpecart
+ * @subpackage Validate
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
  */
 abstract class Validate_Doctrine_Abstract extends Zend_Validate_Abstract
 {

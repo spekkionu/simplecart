@@ -16,7 +16,6 @@
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
  * @copyright  Copyright (c) 2010 Jonathan Bernardi (http://www.spekkionu.com)
- * @license MIT License
  * @version    1.0 07/28/2010
  */
 

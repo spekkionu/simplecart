@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * Cache manager
+ *
+ * @package    Simplecart
+ * @subpackage Cache
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
+ */
 class SimpleCart_Cache {
 
   private static $manager = null;

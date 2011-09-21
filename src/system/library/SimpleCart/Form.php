@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * Base form class
+ *
+ * @package    Simplecart
+ * @subpackage Form
+ * @author     spekkionu
+ * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
+ */
 class SimpleCart_Form extends ZendX_JQuery_Form {
 
   public $validator = array();
