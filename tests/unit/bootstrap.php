@@ -34,7 +34,6 @@ ini_set('default_charset', 'UTF-8');
 // Set Timezone
 date_default_timezone_set('America/Los_Angeles');
 
-
 SimpleCart_Cache::setConfig($config->cache->toArray());
 SimpleCart_Cache::setCacheDir(DATADIR.DIRECTORY_SEPARATOR.'cache');
 
