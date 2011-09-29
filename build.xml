@@ -67,7 +67,7 @@
       </batchtest>
     </phpunit>
     <coverage-report outfile="build/logs/coverage.xml">
-      <report todir="build/coverage" styledir="scripts"/>
+      <report todir="build/coverage" styledir="scripts/phing"/>
     </coverage-report>
   </target>
 
