@@ -9,7 +9,7 @@
   <taskdef name="yuicompressor" classname="YuiCompressorTask" />
   <taskdef name="closure" classname="ClosureTask" />
 
-  <target name="clean" description="Clean up and create artifact directories">
+  <target name="clean" depends="clear-cache" description="Clean up and create artifact directories">
     <delete dir="build/api"/>
     <delete dir="build/code-browser"/>
     <delete dir="build/coverage"/>
@@ -21,6 +21,12 @@
     <mkdir dir="build/coverage"/>
     <mkdir dir="build/logs"/>
     <mkdir dir="build/pdepend"/>
+  </target>
+  
+  <target name="clear-cache" description="Clears cache folders">
+    <delete dir="src/system/cache" includeemptydirs="false" failonerror="true" />
+    <mkdir dir="src/system/cache"/>
+    <chmod file="src/system/cache" mode="0777" />
   </target>
 
   <target name="phpunit" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
