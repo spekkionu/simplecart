@@ -159,7 +159,7 @@
   </target>
 
   <target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
-    <phpcodesniffer standard="spekkionu" showWarnings="false">
+    <phpcodesniffer standard="simplecart" showWarnings="false">
       <fileset dir="${source}/system">
         <include name="forms/**.php" />
         <include name="models/**.php" />
