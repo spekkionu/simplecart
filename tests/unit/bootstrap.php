@@ -24,7 +24,7 @@ $autoloader->pushAutoloader(array('Doctrine', 'extensionsAutoload'));
 $autoloader->setFallbackAutoloader(true);
 
 // Load Config
-$config = new Zend_Config_Yaml( SYSTEM.'/configs/config.yml', null, array('allow_modifications'=>true, 'yaml_decoder' => array('sfYaml', 'load')));
+$config = new Zend_Config_Yaml( TESTDIR.'/data/config.yml', null, array('allow_modifications'=>true, 'yaml_decoder' => array('sfYaml', 'load')));
 $config->system = SYSTEM;
 Zend_Registry::set('config', $config);
 
@@ -92,6 +92,6 @@ $manager->setCollate( 'utf8_unicode_ci' );
 // Set DSN
 $config->database->dsn = "sqlite:///".DATADIR."/cache/testdb.db?mode=666";
 // Connect to database
-$conn = Doctrine_Manager::connection($config->database->dsn);
+$conn = Doctrine_Manager::connection("sqlite:///".DATADIR."/cache/testdb.db?mode=666");
 Doctrine_Core::loadModels(SYSTEM.'/models');
 
