@@ -75,7 +75,9 @@ class SimpleCart_Form extends ZendX_JQuery_Form {
 
 
   public function init(){
-    $this->setAction($this->getView()->url());
+    if($this->getView()){
+      $this->setAction($this->getView()->url());
+    }
     $this->setMethod('post');
     ZendX_JQuery::enableForm($this);
     $this->addElementPrefixPath('Form_Decorator', 'Form/Decorator/', 'decorator');
@@ -114,12 +116,13 @@ class SimpleCart_Form extends ZendX_JQuery_Form {
 
   /**
    * Returns array of form validation error messages for use in json response
+   * If an element has multiple errors they are returned as a string separated by newlines
    * @return array
    */
-  public function getJsonErrors(){
+  public function getJsonErrors($allow_array = true, $separator = "\n"){
     $array = array();
     foreach($this->getMessages() as $element=>$messages){
-      $array[$element] = implode("<br />", $messages);
+      $array[$element] = ($allow_array) ? $messages : implode($separator, $messages);
     }
     unset($element, $messages);
     return $array;

@@ -1,9 +1,8 @@
 <?php
 /**
  * Countries Options Class
- * 
+ *
  * @package    Simplecart
- * @subpackage Model
  * @author     spekkionu
  * @license New BSD http://www.opensource.org/licenses/bsd-license.php
  */
@@ -23,7 +22,8 @@ class SimpleCart_Countries {
    * @param string $file
    * @return void
    */
-  private static function setXML($file){
+  public static function setXML($file = null){
+    if(is_null($file)) $file = dirname(__FILE__) . '/Options/countries.xml';
     if(!is_file($file)) throw new Exception('Country XML file does not exist.');
     self::$file = realpath($file);
     self::$countries = null;
@@ -34,8 +34,7 @@ class SimpleCart_Countries {
    * @return void
    */
   private static function loadCountries(){
-    if(is_null(self::$file)) self::$file = dirname(__FILE__) . '/Options/countries.xml';
-    if(!is_file(self::$file)) throw new Exception('Country XML file does not exist.');
+    if(is_null(self::$file)) self::setXML();
     // Load xml file
     $xml = simplexml_load_file(self::$file);
     $countries = array();
@@ -50,6 +49,22 @@ class SimpleCart_Countries {
     self::$countries = $countries;
     // Clear xml instance
     unset($xml, $countries, $country);
+  }
+
+  /**
+	 * Clears the data from the cache.
+	 * @return void
+	 */
+	public static function clearCache(){
+		self::$countries = null;
+	}
+
+  /**
+   * Checks if data has been cached
+   * @return boolean
+   */
+  public static function isCached(){
+    return is_null(self::$countries);
   }
 
   /**

@@ -3,7 +3,6 @@
  * States Options Class
  *
  * @package    Simplecart
- * @subpackage Form
  * @author     spekkionu
  * @license    New BSD http://www.opensource.org/licenses/bsd-license.php
  */
@@ -24,7 +23,8 @@ class SimpleCart_States {
 	 * @param string $file
 	 * @return void
 	 */
-	public static function setXML($file){
+	public static function setXML($file = null){
+    if(is_null($file)) $file = dirname(__FILE__) . '/Options/states.xml';
 		if(!is_file($file)) throw new Exception('States XML file does not exist.');
 		self::$file = realpath($file);
 		self::$states = null;
@@ -35,8 +35,7 @@ class SimpleCart_States {
 	 * @return void
 	 */
 	private static function loadStates(){
-		if(is_null(self::$file)) self::$file = dirname(__FILE__) . '/Options/states.xml';
-	  if(!is_file(self::$file)) throw new Exception('States XML file does not exist.');
+		if(is_null(self::$file)) self::setXML();
     // Load xml file
 	  $xml = simplexml_load_file(self::$file);
 	  $states = array();
@@ -61,6 +60,14 @@ class SimpleCart_States {
 	public static function clearCache(){
 		self::$states = null;
 	}
+
+  /**
+   * Checks if data has been cached
+   * @return boolean
+   */
+  public static function isCached(){
+    return is_null(self::$states);
+  }
 
 	/**
 	 * Returns array of states

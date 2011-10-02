@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ruleset name="simplecart">
+ <description>A coding standard based on an early Zend Framework coding standard. Note that this standard is out of date.</description>
+
+ <!-- Include some sniffs from all around the place -->
+ <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+ <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
+ <rule ref="Generic.Functions.CallTimePassByReference"/>
+ <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+ <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+ <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+ <rule ref="Generic.NamingConventions.ConstructorName"/>
+ <rule ref="PEAR.Classes.ClassDeclaration"/>
+ <rule ref="simplecart.Commenting.ClassComment"/>
+ <rule ref="Squiz.ControlStructures.ControlSignature"/>
+ <rule ref="simplecart.Functions.FunctionCallSignature"/>
+ <rule ref="PEAR.Functions.ValidDefaultValue"/>
+ <rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>
+ <rule ref="Squiz.Functions.GlobalFunction"/>
+
+ <!-- Use Unix newlines -->
+ <rule ref="Generic.Files.LineEndings">
+  <properties>
+   <property name="eolChar" value="\n"/>
+  </properties>
+ </rule>
+
+</ruleset>

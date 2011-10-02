@@ -28,6 +28,13 @@ $config = new Zend_Config_Yaml( TESTDIR.'/data/config.yml', null, array('allow_m
 $config->system = SYSTEM;
 Zend_Registry::set('config', $config);
 
+// Add Form Autoloader Resource
+$resourceLoader = new Zend_Loader_Autoloader_Resource(array(
+    'basePath'  => SYSTEM,
+    'namespace' => '',
+));
+$resourceLoader->addResourceType('form', 'forms/', 'Form');
+
 // Set Character sets and encoding values
 ini_set('default_charset', 'UTF-8');
 
@@ -49,8 +56,8 @@ $resourceLoader = new Zend_Loader_Autoloader_Resource(array(
 ));
 $resourceLoader->addResourceType('form', 'forms/', 'Form');
 
-error_reporting(0);
-ini_set('display_errors', 0);
+error_reporting(-1);
+ini_set('display_errors', 1);
 // Turn off error logging
 ini_set('error_log', DATADIR . '/logs/php_errors.log');
 ini_set('log_errors', 0);
@@ -88,8 +95,6 @@ $manager->setAttribute( Doctrine_Core::ATTR_AUTOLOAD_TABLE_CLASSES,true);
 $manager->setAttribute(Doctrine_Core::ATTR_AUTO_ACCESSOR_OVERRIDE, true);
 $manager->setCharset( 'utf8' );
 $manager->setCollate( 'utf8_unicode_ci' );
-// Set DSN
-$config->database->dsn = "sqlite:///".DATADIR."/cache/testdb.db?mode=666";
 // Connect to database
 $conn = Doctrine_Manager::connection("sqlite:///".DATADIR."/cache/testdb.db?mode=666");
 Doctrine_Core::loadModels(SYSTEM.'/models');
